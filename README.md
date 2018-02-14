@@ -1,2 +1,4 @@
-# wdl-pipelines
-Documentation for WDL pipelines at ENCODE-DCC
+# wdl_pipelines
+Documentation for WDL pipelines in Kundaje lab and ENCODE DCC
+
+[Usage](USAGE.md)
