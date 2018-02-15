@@ -108,7 +108,7 @@ Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination direct
 10) You don't have to repeat step 1-9 for next pipeline run. Credential information will be stored in `$HOME/.config/gcloud`. Go directly to step 11.
 11) Run a pipeline. Use any string for `[SAMPLE_NAME]` to distinguish between multiple samples.
     ```
-    $ java -jar -Dconfig.file=backends/google.conf -Dbackend.providers.JES.config.project=[PROJ_NAME] -Dbackend.providers.JES.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker_google.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker_google.json
     ```
 
 ### Local computer with `Docker`
@@ -116,7 +116,7 @@ Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination direct
 1) Install [genome data](#genome-data-installation).
 2) Run a pipeline.
     ```
-    $ java -jar -Dconfig.file=backends/default.conf cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker.json
     ```
 
 ### Local computer without `Docker`
@@ -126,7 +126,7 @@ Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination direct
 3) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/default.conf cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
@@ -142,7 +142,7 @@ Genome data have already been installed and shared on Stanford SCG4. You can ski
 4) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/sge.conf cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
@@ -155,7 +155,7 @@ Genome data have already been installed and shared on Stanford Sherlock-2. You c
 4) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/slurm.conf cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
@@ -164,7 +164,7 @@ Genome data have already been installed and shared on Stanford Sherlock-2. You c
 Jobs will run locally without being submitted to Sun GridEngine (SGE). Genome data have already been installed and shared.
 1) Run a pipeline. 
     ```
-    $ java -jar -Dconfig.file=backends/default.conf cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker.json
     ```
 
 ### Kundaje lab cluster with Sun GridEngine (SGE)
@@ -174,7 +174,7 @@ Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nod
 2) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/sge.conf cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
