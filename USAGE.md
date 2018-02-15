@@ -55,7 +55,7 @@ Find an initialization script directory `[INIT_SQL_DIR]` for MySQL database. It'
 
 Choose your destination directory `[MYSQL_DB_DIR]` for storing all data.
 ```
-$ docker run --name mysql-cromwell -v [MYSQL_DB_DIR]:/var/lib/mysql -v [INIT_SQL_DIR]:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=cromwell -e MYSQL_DATABASE=cromwell_db --publish 3306:3306 mysql
+$ docker run -d --name mysql-cromwell -v [MYSQL_DB_DIR]:/var/lib/mysql -v [INIT_SQL_DIR]:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=cromwell -e MYSQL_DATABASE=cromwell_db --publish 3306:3306 mysql
 ```
 To stop MySQL
 ```
@@ -97,7 +97,7 @@ Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination direct
     {
       "default_runtime_attributes" : {
         ...
-        "preemptible": "1",
+        "preemptible": "0",
         ...
     }
     ```
@@ -209,12 +209,14 @@ Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nod
 8) Install dependencies on Minconda3 environment. Java 8 JDK and Cromwell-29 are included in the installation.
    ```
    $ cd installers/
+   $ source activate [CONDA_ENV]
    $ bash install_dependencies.sh
+   $ source deactivate
    ```
 9) **ACTIVATE MINICONDA3 ENVIRONMENT** and run a pipeline.
    ```
    $ source activate [CONDA_ENV]
-   $ java -jar -Dconfig.file=[BACKEND_OPT] $(which cromwell-29.jar) run [WDL] -i input.json -o [WORKFLOW_OPT]
+   $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=[BACKEND] cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
    $ source deactivate
    ```
 
@@ -230,7 +232,7 @@ Supported genomes:
   * hg19: ENCODE [GRCh37/hg19](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz)
   * mm9: [mm9, NCBI Build 37](http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit)
 
-A TSV file will be generated under `[DEST_DIR]`. Use it for `[PIPELINE].genomv_tsv` value in pipeline's input JSON file.
+A TSV file will be generated under `[DEST_DIR]`. Use it for `[PIPELINE].genome_tsv` value in pipeline's input JSON file.
 
 1) Do not install genome data on Stanford clusters (Sherlock-2 and SCG4). They already have all genome data installed. Use `genome/[GENOME]_sherlock.tsv` or `genome/[GENOME]_scg4.tsv` as your TSV file.
 2) For Mac OSX users, if [dependency installation](#dependency-installation) does not work then post an issue on the repo.
@@ -238,7 +240,7 @@ A TSV file will be generated under `[DEST_DIR]`. Use it for `[PIPELINE].genomv_t
 4) Install genome data.
    ```
    $ cd installers/
-   $ source activate encode-chip-seq-pipeline
+   $ source activate [CONDA_ENV]
    $ bash install_genome_data.sh [GENOME] [DEST_DIR]
    $ source deactivate
    ```
