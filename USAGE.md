@@ -36,13 +36,13 @@ $ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30
 ## Running Cromwell (server mode)
 Use [Cromwell server REST API](https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api) for submitting/monitoring/stopping your pipielines.
 ```
-$ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30.1.jar server [WDL]
+$ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30.1.jar server
 ```
 
 ## Running Cromwell (server mode for Google Cloud)
-Use [Cromwell server REST API](https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api) for submitting/monitoring/stopping your pipielines.
+Use [Cromwell server REST API](https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api) for submitting/monitoring/stopping your pipielines. All pipeline outputs will be stored on `[GC_BUCKET]`.
 ```
-$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[GC_BUCKET] cromwell-30.1.jar server [WDL]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[GC_BUCKET] cromwell-30.1.jar server
 ```
 
 # MySQL database configuration
