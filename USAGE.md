@@ -5,69 +5,79 @@ Usage and configuration for running WDL pipelines with Cromwell
 
 Choose `[BACKEND_FILE]`, `[BACKEND]`, `[WDL]`, `[PIPELINE]`, `[CONDA_ENV]` and `[WORKFLOW_OPT]` according to your platforms, kind of pipeline (`.wdl`) and presence of MySQL database and `Docker`.
 
-* `[BACKEND_FILE]`
+* `[BACKEND_FILE]` (not required for DNANexus)
     - `backends/backend.conf` : backend conf. file for all backends.
     - `backends/backend_db.conf` : backend conf. file for all backends with MySQL DB.
-* `[BACKEND]`
+* `[BACKEND]` (not required for DNANexus)
     - `Local` : local (by default).
     - `google` : Google Cloud Platform.
     - `sge` : Sun GridEngine.
     - `slurm` : SLURM.
 * `[PIPELINE]`
     - `atac` : ENCODE ATAC/DNase-Seq pipeline
-    - `chipseq` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
+    - `chip` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
 * `[WDL]`
     - `atac.wdl` : ENCODE ATAC/DNase-Seq pipeline
-    - `chipseq.wdl` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
-* `[CONDA_ENV]`
+    - `chip.wdl` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
+* `[CONDA_ENV]` (for systems without `Docker` support)
     - `encode-atac-seq-pipeline` : ENCODE ATAC/DNase-Seq pipeline
     - `encode-chip-seq-pipeline` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
-* `[WORKFLOW_OPT]`
+* `[WORKFLOW_OPT]` (not required for DNANexus)
     - `non-docker.json` : for systems without `Docker` support (choose this for SGE and SLURM).
     - `docker.json` : for systems with `Docker` support.
     - `docker_google.json` : for Google Cloud Platform.
 
-## Running Cromwell (single workflow mode)
+## Running on DNANexus
+Download the latest `dxWDL` first.
+```
+$ wget https://github.com/dnanexus/dxWDL/releases/download/0.60.2/dxWDL-0.60.2.jar
+$ chmod +x dxWDL-0.60.2.jar
+```
+In order to run our pipeline on DNANexus, you first need to convert `[WDL]` to an equivalent workflow on DNANexus. A workflow on your current DNANexus project will be generated on `[DX_PRJ]/[DEST_DIR_ON_DX]` then specify an output directory and run it.
+```
+$ java -jar dxWDL-0.60.2.jar -f -folder [DEST_DIR_ON_DX] -defaults input.json
+```
+
+## Running with Cromwell (single workflow mode)
+Download the latest `cromwell` first.
+```
+$ wget https://github.com/broadinstitute/cromwell/releases/download/30.2/cromwell-30.2.jar
+$ chmod +x cromwell-30.2.jar
+```
 Command line interface to run a single pipeline.
 ```
-$ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30.1.jar run [WDL] -i input.json -o [WORKFLOW_OPT]
+$ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30.2.jar run [WDL] -i input.json -o [WORKFLOW_OPT]
 ```
 
-## Running Cromwell (server mode)
+## Running with Cromwell (server mode)
 Use [Cromwell server REST API](https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api) for submitting/monitoring/stopping your pipielines.
 ```
-$ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30.1.jar server
+$ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30.2.jar server
 ```
 
-## Running Cromwell (server mode for Google Cloud)
+## Running with Cromwell (server mode for Google Cloud)
 Use [Cromwell server REST API](https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api) for submitting/monitoring/stopping your pipielines. All pipeline outputs will be stored on `[GC_BUCKET]`.
 ```
-$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[GC_BUCKET] cromwell-30.1.jar server
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[GC_BUCKET] cromwell-30.2.jar server
 ```
-
-# MySQL database configuration
-
-There are several advantages (call-caching and managing multiple workflows) to use Cromwell with MySQL DB. Call-caching is disabled in `[BACKEND_FILE]` by default.
-
-Find an initialization script directory `[INIT_SQL_DIR]` for MySQL database. It's located at `/docker_image/mysql` on github repo of any ENCODE/Kundaje lab WDL pipelines. If you want to change username and password, make sure to match with those in the following command lines and `[BACKEND_FILE]` (`backends/backend_with_db.conf`).
-
-## Running MySQL server with `Docker`
-
-Choose your destination directory `[MYSQL_DB_DIR]` for storing all data.
-```
-$ docker run -d --name mysql-cromwell -v [MYSQL_DB_DIR]:/var/lib/mysql -v [INIT_SQL_DIR]:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=cromwell -e MYSQL_DATABASE=cromwell_db --publish 3306:3306 mysql
-```
-To stop MySQL
-```
-$ docker stop mysql-cromwell
-```
-
-## Running MySQL without `Docker`
-
-Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination directory for storing all data. It's locally stored on `/var/lib/mysql` for most versions of MySQL by default.
-
 
 # Configuration for each platform
+
+### DNANexus
+
+1) Sign up for an account on [DNANexus](https://www.dnanexus.com).
+2) Create a project `[DX_PRJ]`.
+3) Install [DNANexus SDK](https://wiki.dnanexus.com/Downloads#DNAnexus-Platform-SDK) on your local computer and login on that project.
+    ```
+    $ pip install dxpy
+    $ dx login
+    ```
+4) Convert WDL to a workflow on DNANexus web UI. Make sure that URIs in your `input.json` are valid (starting with `dx://`) for DNANexus.
+    ```
+    $ java -jar dxWDL-0.60.2.jar -f -folder [DEST_DIR_ON_DX] -defaults input.json
+    ```
+5) Check if a new workflow is generated on a directory `[DEST_DIR_ON_DX]` on your project `[DX_PRJ]`.
+6) Click on a workflow, specify output directory and then launch it.
 
 ### Google Cloud Platform
 
@@ -112,9 +122,9 @@ Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination direct
     $ gcloud config set project [PROJ_NAME]
     ```
 10) You don't have to repeat step 1-9 for next pipeline run. Credential information will be stored in `$HOME/.config/gcloud`. Go directly to step 11.
-11) Run a pipeline. Use any string for `[SAMPLE_NAME]` to distinguish between multiple samples.
+11) Run a pipeline. Make sure that URIs in your `input.json` are valid (starting with `gs://`) for Google Cloud. Use any string for `[SAMPLE_NAME]` to distinguish between multiple samples.
     ```
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker_google.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker_google.json
     ```
 
 ### Local computer with `Docker`
@@ -122,7 +132,7 @@ Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination direct
 1) Install [genome data](#genome-data-installation).
 2) Run a pipeline.
     ```
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json
     ```
 
 ### Local computer without `Docker`
@@ -132,7 +142,7 @@ Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination direct
 3) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
@@ -148,7 +158,7 @@ Genome data have already been installed and shared on Stanford SCG4. You can ski
 4) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
@@ -161,7 +171,7 @@ Genome data have already been installed and shared on Stanford Sherlock-2. You c
 4) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
@@ -170,7 +180,7 @@ Genome data have already been installed and shared on Stanford Sherlock-2. You c
 Jobs will run locally without being submitted to Sun GridEngine (SGE). Genome data have already been installed and shared.
 1) Run a pipeline. 
     ```
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json
     ```
 
 ### Kundaje lab cluster with Sun GridEngine (SGE)
@@ -180,7 +190,7 @@ Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nod
 2) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
@@ -216,7 +226,7 @@ Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nod
 9) **ACTIVATE MINICONDA3 ENVIRONMENT** and run a pipeline.
    ```
    $ source activate [CONDA_ENV]
-   $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=[BACKEND] cromwell-30.1.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+   $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=[BACKEND] cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
    $ source deactivate
    ```
 
@@ -261,3 +271,25 @@ elif [[ $GENOME == "[YOUR_CUSTOM_GENOME_NAME]" ]]; then
 fi
 ...
 ```
+
+# MySQL database configuration
+
+There are several advantages (call-caching and managing multiple workflows) to use Cromwell with MySQL DB. Call-caching is disabled in `[BACKEND_FILE]` by default.
+
+Find an initialization script directory `[INIT_SQL_DIR]` for MySQL database. It's located at `/docker_image/mysql` on github repo of any ENCODE/Kundaje lab WDL pipelines. If you want to change username and password, make sure to match with those in the following command lines and `[BACKEND_FILE]` (`backends/backend_with_db.conf`).
+
+## Running MySQL server with `Docker`
+
+Choose your destination directory `[MYSQL_DB_DIR]` for storing all data.
+```
+$ docker run -d --name mysql-cromwell -v [MYSQL_DB_DIR]:/var/lib/mysql -v [INIT_SQL_DIR]:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=cromwell -e MYSQL_DATABASE=cromwell_db --publish 3306:3306 mysql
+```
+To stop MySQL
+```
+$ docker stop mysql-cromwell
+```
+
+## Running MySQL without `Docker`
+
+Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination directory for storing all data. It's locally stored on `/var/lib/mysql` for most versions of MySQL by default.
+
