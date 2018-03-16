@@ -132,7 +132,7 @@ $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbacke
 1) Install [genome data](#genome-data-installation).
 2) Run a pipeline.
     ```
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json
     ```
 
 ### Local computer without `Docker`
@@ -142,7 +142,7 @@ $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbacke
 3) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
     $ source deactivate
     ```
 
@@ -164,7 +164,7 @@ Genome data have already been installed and shared on Stanford SCG4. You can ski
 
 ### SLURM
 
-Genome data have already been installed and shared on Stanford Sherlock-2. You can skip step 3 on Sherlock-2.
+Genome data have already been installed and shared on Stanford Sherlock. You can skip step 3 on Sherlock.
 1) Set your partition (`default_runtime_attributes.slurm_partition`) in `workflow_opts/non_docker.json`.
 2) Install [dependencies](#dependency-installation).
 3) Install [genome data](#genome-data-installation).
@@ -266,7 +266,7 @@ elif [[ $GENOME == "mm10" ]]; then
 
 elif [[ $GENOME == "[YOUR_CUSTOM_GENOME_NAME]" ]]; then
   REF_FA="[YOUR_CUSTOM_GENOME_FA_OR_2BIT_URL]"
-  BLACKLIST="[YOUR_CUSTOM_GENOME_BLACKLIST_BED]" # if it doesn't exist then comment this line out.
+  BLACKLIST="[YOUR_CUSTOM_GENOME_BLACKLIST_BED]" # if there is no blacklist then comment this line out.
 
 fi
 ...
