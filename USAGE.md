@@ -23,9 +23,9 @@ Choose `[BACKEND_FILE]`, `[BACKEND]`, `[WDL]`, `[PIPELINE]`, `[CONDA_ENV]` and `
     - `encode-atac-seq-pipeline` : ENCODE ATAC/DNase-Seq pipeline
     - `encode-chip-seq-pipeline` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
 * `[WORKFLOW_OPT]` (not required for DNANexus)
-    - `non-docker.json` : for systems without `Docker` support (choose this for SGE and SLURM).
-    - `docker.json` : for systems with `Docker` support.
-    - `docker_google.json` : for Google Cloud Platform.
+    - `docker.json` : for systems with `Docker` support (Google Cloud, local, ...).
+    - `sge.json` : Sun GridEngine (here you can specify your own queue and parallel environment).
+    - `slurm.json` : SLURM (here you can specify your partition or account).
 
 ## Running on DNANexus
 Download the latest `dxWDL` first.
@@ -35,7 +35,7 @@ $ chmod +x dxWDL-0.60.2.jar
 ```
 In order to run our pipeline on DNANexus, you first need to convert `[WDL]` to an equivalent workflow on DNANexus. A workflow on your current DNANexus project will be generated on `[DX_PRJ]/[DEST_DIR_ON_DX]` then specify an output directory and run it.
 ```
-$ java -jar dxWDL-0.60.2.jar -f -folder [DEST_DIR_ON_DX] -defaults input.json
+$ java -jar dxWDL-0.60.2.jar compile [WDL] -f -folder [DEST_DIR_ON_DX] -defaults input.json
 ```
 
 ## Running with Cromwell (single workflow mode)
@@ -129,8 +129,9 @@ $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbacke
 
 ### Local computer with `Docker`
 
-1) Install [genome data](#genome-data-installation).
-2) Run a pipeline.
+1) Install [dependencies](#dependency-installation) for installing genome data.
+2) Install [genome data](#genome-data-installation).
+3) Run a pipeline.
     ```
     $ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json
     ```
@@ -142,14 +143,14 @@ $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbacke
 3) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json
     $ source deactivate
     ```
 
 ### Sun GridEngine (SGE)
 
 Genome data have already been installed and shared on Stanford SCG4. You can skip step 3 on SCG4.
-1) Set your parallel environment (`default_runtime_attributes.sge_pe`) and queue (`default_runtime_attributes.sge_queue`) in `workflow_opts/non_docker.json`. If there is no parallel environment on your SGE then ask your SGE admin to create one.
+1) Set your parallel environment (`default_runtime_attributes.sge_pe`) and queue (`default_runtime_attributes.sge_queue`) in `workflow_opts/sge.json`. If there is no parallel environment on your SGE then ask your SGE admin to create one. `sge_queue` is optional.
     ```
     $ qconf -spl
     ```
@@ -158,20 +159,20 @@ Genome data have already been installed and shared on Stanford SCG4. You can ski
 4) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/sge.json
     $ source deactivate
     ```
 
 ### SLURM
 
 Genome data have already been installed and shared on Stanford Sherlock. You can skip step 3 on Sherlock.
-1) Set your partition (`default_runtime_attributes.slurm_partition`) in `workflow_opts/non_docker.json`.
+1) Set your partition (`default_runtime_attributes.slurm_partition`) or account (`default_runtime_attributes.slurm_account`) in `workflow_opts/slurm.json`. Those two attibutes are optional according to your SLURM server configuration.
 2) Install [dependencies](#dependency-installation).
 3) Install [genome data](#genome-data-installation).
 4) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/slurm.json
     $ source deactivate
     ```
 
@@ -190,7 +191,7 @@ Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nod
 2) Run a pipeline.
     ```
     $ source activate [CONDA_ENV]
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/sge.json
     $ source deactivate
     ```
 
@@ -208,6 +209,8 @@ Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nod
 5) Add `PATH` for our pipeline Python scripts and Miniconda3 to one of your bash startup scripts (`$HOME/.bashrc`, `$HOME/.bash_profile`...). 
    ```
    unset PYTHONPATH
+   export PYTHON_EGG_CACHE=/tmp
+
    export PATH=[WDL_PIPELINE_DIR]/src:$PATH
    export PATH=[MINICONDA3_INSTALL_DIR]/bin:$PATH
    ```
@@ -226,7 +229,7 @@ Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nod
 9) **ACTIVATE MINICONDA3 ENVIRONMENT** and run a pipeline.
    ```
    $ source activate [CONDA_ENV]
-   $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=[BACKEND] cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/non_docker.json
+   $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=[BACKEND] cromwell-30.2.jar run [WDL] -i input.json
    $ source deactivate
    ```
 
