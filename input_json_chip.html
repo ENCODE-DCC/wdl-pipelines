@@ -1,0 +1,368 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Input JSON for chip.wdl &#8212; ENCODE genomic pipelines  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Input JSON for atac.wdl" href="input_json_atac.html" />
+    <link rel="prev" title="Installation" href="install.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="input-json-for-chip-wdl">
+<h1>Input JSON for <code class="docutils literal notranslate"><span class="pre">chip.wdl</span></code><a class="headerlink" href="#input-json-for-chip-wdl" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>Optional parameters and flags are marked with <code class="docutils literal notranslate"><span class="pre">?</span></code>. <code class="docutils literal notranslate"><span class="pre">Input</span></code> in this document does not mean <code class="docutils literal notranslate"><span class="pre">control</span></code> here. <code class="docutils literal notranslate"><span class="pre">Control</span></code> is explicitly called <code class="docutils literal notranslate"><span class="pre">control</span></code>.</p>
+<ol class="arabic">
+<li><p class="first">Reference genome</p>
+<blockquote>
+<div><p>Currently supported genomes:</p>
+<ul class="simple">
+<li>hg38: ENCODE <a class="reference external" href="https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz">GRCh38_no_alt_analysis_set_GCA_000001405</a></li>
+<li>mm10: ENCODE <a class="reference external" href="https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/&#64;&#64;download/mm10_no_alt_analysis_set_ENCODE.fasta.gz">mm10_no_alt_analysis_set_ENCODE</a></li>
+<li>hg19: ENCODE <a class="reference external" href="http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz">GRCh37/hg19</a></li>
+<li>mm9: <a class="reference external" href="http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit">mm9, NCBI Build 37</a></li>
+</ul>
+<p>This TSV file has all genome specific data parameters and file path/URIs. Choose one of TSVs in <code class="docutils literal notranslate"><span class="pre">genome</span></code> directory.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.genome_tsv&quot;</span></code> : TSV file path/URI.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Input genome data files</p>
+<blockquote>
+<div><p>Choose any genome data type you want to start with and do not define all others.</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.fastqs&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">3-dimensional array with FASTQ file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+<li>2nd dimension: merge ID (this dimension will be reduced after merging FASTQs)</li>
+<li>3rd dimension: endedness ID (0 for SE and 0,1 for PE)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.bams&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of raw (unfiltered) BAM file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.nodup_bams&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of filtered (deduped) BAM file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.tas&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of TAG-ALIGN file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.peaks&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of NARROWPEAK file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.peaks_pr1&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of NARROWPEAK file path/URI for 1st self pseudo replicate of replicate ID.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.peaks_pr2&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of NARROWPEAK file path/URI for 2nd self pseudo replicate of replicate ID.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.peak_ppr1&quot;</span></code>? : NARROWPEAK file path/URI for pooled 1st pseudo replicates.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.peak_ppr2&quot;</span></code>? : NARROWPEAK file path/URI for pooled 2nd pseudo replicates.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.peak_pooled&quot;</span></code>? : NARROWPEAK file path/URI for pooled replicate.</li>
+</ul>
+<p>If starting from peaks then always define <code class="docutils literal notranslate"><span class="pre">&quot;chip.peaks&quot;</span></code>. Define <code class="docutils literal notranslate"><span class="pre">&quot;chip.peaks_pr1&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;chip.peaks_pr2&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;chip.peak_pooled&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;chip.peak_ppr1&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;chip.peak_ppr2&quot;</span></code> according to the following rules:</p>
+<blockquote>
+<div><div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">num_rep</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">:</span>
+    <span class="k">if</span> <span class="nx">true_rep_only</span><span class="o">:</span> <span class="nx">peak_pooled</span><span class="p">,</span>
+    <span class="k">else</span><span class="o">:</span> <span class="nx">peaks_pr1</span><span class="p">[],</span> <span class="nx">peaks_pr2</span><span class="p">[],</span> <span class="nx">peak_pooled</span><span class="p">,</span> <span class="nx">peak_ppr1</span><span class="p">,</span> <span class="nx">peak_ppr2</span>
+<span class="k">else</span><span class="o">:</span>
+    <span class="k">if</span> <span class="nx">true_rep_only</span><span class="o">:</span> <span class="s2">&quot;not the case!&quot;</span>
+    <span class="k">else</span><span class="o">:</span> <span class="nx">peaks_pr1</span><span class="p">[],</span> <span class="nx">peaks_pr2</span><span class="p">[]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Default peak caller (<code class="docutils literal notranslate"><span class="pre">&quot;chip.peak_caller&quot;</span></code>) for TF (<code class="docutils literal notranslate"><span class="pre">&quot;chip.pipeline_type&quot;:&quot;tf&quot;</span></code>) ChIP-Seq pipeline and Histone ChIP-Seq pipeline (<code class="docutils literal notranslate"><span class="pre">&quot;chip.pipeline_type&quot;:&quot;histone&quot;</span></code>) are ‘spp’ and ‘macs2’, respectively. However you can also manually specify a peak caller for these pipeline types. <code class="docutils literal notranslate"><span class="pre">macs2</span></code> can work without controls but <code class="docutils literal notranslate"><span class="pre">spp</span></code> cannot. Therefore, if a peak caller is chosen as <code class="docutils literal notranslate"><span class="pre">spp</span></code> by default or by a workflow parameter then make sure to define the following control data files. Choose any genome data type you want to start with and do not define all others.</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.ctl_fastqs&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">3-dimensional array with control FASTQ file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+<li>2nd dimension: merge ID (this dimension will be reduced after merging FASTQs)</li>
+<li>3rd dimension: endedness ID (0 for SE and 0,1 for PE)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.ctl_bams&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of raw (unfiltered) control BAM file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.ctl_nodup_bams&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of filtered (deduped) control BAM file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&quot;chip.ctl_tas&quot;</span></code>? <span class="classifier-delimiter">:</span> <span class="classifier">Array of control TAG-ALIGN file path/URI.</span></dt>
+<dd><ul class="first last">
+<li>1st dimension: replicate ID</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>input.json
+{</p>
+<blockquote>
+<div><p>“chip.paired_end” : false,
+“chip.bams” : [“rep1.bam”,”rep2.bam”],
+…
+“chip.ctl_tas” : [“ctl1.tagAlign.gz”,”ctl2.tagAlign.gz”],
+…</p>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p class="first">Pipeline settings</p>
+<blockquote>
+<div><p>Pipeline type (TF ChIP-Seq or Histone ChIP-Seq) : TF ChIP-Seq always requires controls.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.pipeline_type</span></code> : <code class="docutils literal notranslate"><span class="pre">tf</span></code> for Transcription Factor ChIP-Seq. <code class="docutils literal notranslate"><span class="pre">histone</span></code> for Histone ChIP-Seq.</li>
+</ul>
+<p>Input data endedness.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.paired_end&quot;</span></code> : Set it as <code class="docutils literal notranslate"><span class="pre">true</span></code> if input dataset is paired end, otherwise <code class="docutils literal notranslate"><span class="pre">false</span></code>.</li>
+</ul>
+<p>Other important settings.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.align_only</span></code>? : Disable all downstream analysis after mapping.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.true_rep_only&quot;</span></code>? : Set it as <code class="docutils literal notranslate"><span class="pre">true</span></code> to disable all analyses (including IDR, naive-overlap and reproducibility QC) related to pseudo replicates. This flag suppresses <code class="docutils literal notranslate"><span class="pre">&quot;chip.enable_idr&quot;</span></code>.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Trim FASTQ settings (<strong>for paired end dataset only</strong>)</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.trim_fastq.trim_bp</span></code>? : For paired end dataset only. Number of basepairs after trimming FASTQ. It’s 50 by default. Trimmed FASTQS is only used for cross-correlation analysis. FASTQ mapping is not affected by this parameter.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Filter/dedup (post-alignment) settings</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.filter.dup_marker&quot;</span></code>? : Dup marker. Choose between <code class="docutils literal notranslate"><span class="pre">picard</span></code> (default) and <code class="docutils literal notranslate"><span class="pre">sambamba</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.filter.mapq_thresh&quot;</span></code>? : Threshold for low MAPQ reads removal.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.filter.no_dup_removal&quot;</span></code>? : No dup reads removal when filtering BAM.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">BAM-2-TAGALIGN settings</p>
+<blockquote>
+<div><p>Pipeline filters out chrM reads by default.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bam2ta.regex_grep_v_ta&quot;</span></code>? : Perl-style regular expression pattern to remove matching reads from TAGALIGN (default: <code class="docutils literal notranslate"><span class="pre">chrM</span></code>).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bam2ta.subsample&quot;</span></code>? : Number of reads to subsample TAGALIGN. Subsampled TAGALIGN will be used for all downstream analysis (MACS2, IDR, naive-overlap).</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Choose control settings</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.choose_ctl.ctl_depth_ratio&quot;</span></code>? : if ratio between controls is higher than this then always use pooled control for all exp rep.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.choose_ctl.always_use_pooled_ctl&quot;</span></code>? : Always use pooled control for all exp replicates (ignoring <code class="docutils literal notranslate"><span class="pre">ctl_depth_ratio</span></code>).</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Cross correlation analysis settings</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.xcor.subsample&quot;</span></code>? : Number of reads to subsample TAGALIGN. Only one end (R1) will be used for cross correlation analysis. This will not affect downstream analysis.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">MACS2 settings</p>
+<blockquote>
+<div><p><strong>DO NOT DEFINE MACS2 PARAMETERS IN ``”chip.macs2”`` SCOPE</strong>. All MACS2 parameters must be defined in <code class="docutils literal notranslate"><span class="pre">&quot;chipseq&quot;</span></code> scope.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.macs2_cap_num_peak&quot;</span></code>? : Cap number of raw peaks called from MACS2.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.pval_thresh&quot;</span></code>? : P-value threshold.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">SPP settings</p>
+<blockquote>
+<div><p><strong>DO NOT DEFINE SPP PARAMETERS IN ``”chip.spp”`` SCOPE</strong>. All SPP parameters must be defined in <code class="docutils literal notranslate"><span class="pre">&quot;chipseq&quot;</span></code> scope.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.spp_cap_num_peak&quot;</span></code>? : Cap number of raw peaks called from SPP.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">IDR settings</p>
+<blockquote>
+<div><p><strong>DO NOT DEFINE IDR PARAMETERS IN ``”chip.idr”`` SCOPE</strong>. All IDR parameters must be defined in <code class="docutils literal notranslate"><span class="pre">&quot;chipseq&quot;</span></code> scope.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.idr_thresh&quot;</span></code>? : IDR threshold.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Resources</p>
+<blockquote>
+<div><p><strong>RESOURCES DEFINED IN ``input.json`` ARE PER TASK</strong>. For example, if you have FASTQs for 2 replicates (2 tasks) and set <code class="docutils literal notranslate"><span class="pre">cpu</span></code> for <code class="docutils literal notranslate"><span class="pre">bwa</span></code> task as 4 then total number of cpu cores to map FASTQs is 2 x 4 = 8.</p>
+<p>CPU (<code class="docutils literal notranslate"><span class="pre">cpu</span></code>), memory (<code class="docutils literal notranslate"><span class="pre">mem_mb</span></code>) settings are used for submitting jobs to cluster engines (SGE and SLURM) and Cloud platforms (Google Cloud Platform, AWS, …). VM instance type on cloud platforms will be automatically chosen according to each task’s <code class="docutils literal notranslate"><span class="pre">cpu</span></code> and <code class="docutils literal notranslate"><span class="pre">mem_mb</span></code>. Number of cores for tasks without <code class="docutils literal notranslate"><span class="pre">cpu</span></code> parameter is fixed at 1.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.merge_fastq.cpu&quot;</span></code>? : Number of cores for <code class="docutils literal notranslate"><span class="pre">merge_fastq</span></code> (default: 2).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bwa.cpu&quot;</span></code>? : Number of cores for <code class="docutils literal notranslate"><span class="pre">bwa</span></code> (default: 4).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.filter.cpu&quot;</span></code>? : Number of cores for <code class="docutils literal notranslate"><span class="pre">filter</span></code> (default: 2).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bam2ta.cpu&quot;</span></code>? : Number of cores for <code class="docutils literal notranslate"><span class="pre">bam2ta</span></code> (default: 2).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.xcor.cpu&quot;</span></code>? : Number of cores for <code class="docutils literal notranslate"><span class="pre">xcor</span></code> (default: 2).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.spp_cpu&quot;</span></code>? : Number of cores for <code class="docutils literal notranslate"><span class="pre">spp</span></code> (default: 2).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.merge_fastq.mem_mb&quot;</span></code>? : Max. memory limit in MB for <code class="docutils literal notranslate"><span class="pre">merge_fastq</span></code> (default: 10000).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bwa.mem_mb&quot;</span></code>? : Max. memory limit in MB for <code class="docutils literal notranslate"><span class="pre">bwa</span></code> (default: 20000).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.filter.mem_mb&quot;</span></code>? : Max. memory limit in MB for <code class="docutils literal notranslate"><span class="pre">filter</span></code> (default: 20000).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bam2ta.mem_mb&quot;</span></code>? : Max. memory limit in MB for <code class="docutils literal notranslate"><span class="pre">bam2ta</span></code> (default: 10000).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.spr.mem_mb&quot;</span></code>? : Max. memory limit in MB for <code class="docutils literal notranslate"><span class="pre">spr</span></code> (default: 12000).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.xcor.mem_mb&quot;</span></code>? : Max. memory limit in MB for <code class="docutils literal notranslate"><span class="pre">xcor</span></code> (default: 10000).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.macs2_mem_mb&quot;</span></code>? : Max. memory limit in MB for <code class="docutils literal notranslate"><span class="pre">macs2</span></code> (default: 16000).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.spp_mem_mb&quot;</span></code>? : Max. memory limit in MB for <code class="docutils literal notranslate"><span class="pre">spp</span></code> (default: 16000).</li>
+</ul>
+<p>Disks (<code class="docutils literal notranslate"><span class="pre">disks</span></code>) is used for Cloud platforms (Google Cloud Platforms, AWS, …).</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.merge_fastq.disks&quot;</span></code>? : Disks for <code class="docutils literal notranslate"><span class="pre">merge_fastq</span></code> (default: “local-disk 100 HDD”).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bwa.disks&quot;</span></code>? : Disks for <code class="docutils literal notranslate"><span class="pre">bwa</span></code> (default: “local-disk 100 HDD”).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.filter.disks&quot;</span></code>? : Disks for <code class="docutils literal notranslate"><span class="pre">filter</span></code> (default: “local-disk 100 HDD”).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bam2ta.disks&quot;</span></code>? : Disks for <code class="docutils literal notranslate"><span class="pre">bam2ta</span></code> (default: “local-disk 100 HDD”).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.xcor.disks&quot;</span></code>? : Disks for <code class="docutils literal notranslate"><span class="pre">xcor</span></code> (default: “local-disk 100 HDD”).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.spp_disks&quot;</span></code>? : Disks for <code class="docutils literal notranslate"><span class="pre">spp</span></code> (default: “local-disk 100 HDD”).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.macs2_disks&quot;</span></code>? : Disks for <code class="docutils literal notranslate"><span class="pre">macs2</span></code> (default: “local-disk 100 HDD”).</li>
+</ul>
+<p>Walltime (<code class="docutils literal notranslate"><span class="pre">time</span></code>) settings (for SGE and SLURM only).</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.merge_fastq.time_hr&quot;</span></code>? : Walltime for <code class="docutils literal notranslate"><span class="pre">merge_fastq</span></code> (default: 6).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bwa.time_hr&quot;</span></code>? : Walltime for <code class="docutils literal notranslate"><span class="pre">bwa</span></code> (default: 48).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.filter.time_hr&quot;</span></code>? : Walltime for <code class="docutils literal notranslate"><span class="pre">filter</span></code> (default: 24).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.bam2ta.time_hr&quot;</span></code>? : Walltime for <code class="docutils literal notranslate"><span class="pre">bam2ta</span></code> (default: 6).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.xcor.time_hr&quot;</span></code>? : Walltime for <code class="docutils literal notranslate"><span class="pre">xcor</span></code> (default: 6).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.macs2_time_hr&quot;</span></code>? : Walltime for <code class="docutils literal notranslate"><span class="pre">macs2</span></code> (default: 24).</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.spp_time_hr&quot;</span></code>? : Walltime for <code class="docutils literal notranslate"><span class="pre">spp</span></code> (default: 72).</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">QC report HTML/JSON</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.qc_report.name&quot;</span></code>? : Name of sample.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;chip.qc_report.desc&quot;</span></code>? : Description for sample.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="install.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="input_json_atac.html" title="next chapter">Input JSON for <code class="docutils literal notranslate"><span class="pre">atac.wdl</span></code></a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/input_json_chip.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, ENCODE DCC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/input_json_chip.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

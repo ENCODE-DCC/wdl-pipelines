@@ -15,6 +15,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Input JSON for chip.wdl" href="input_json_chip.html" />
+    <link rel="prev" title="ENCODE genomic pipelines" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,13 +35,459 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<div class="section" id="dnanexus">
-<h2>DNANexus<a class="headerlink" href="#dnanexus" title="Permalink to this headline">¶</a></h2>
-<p>dnanexus</p>
+<div class="section" id="general-usage">
+<h2>General usage<a class="headerlink" href="#general-usage" title="Permalink to this headline">¶</a></h2>
+<p>Choose <code class="docutils literal notranslate"><span class="pre">[BACKEND_FILE]</span></code>, <code class="docutils literal notranslate"><span class="pre">[BACKEND]</span></code>, <code class="docutils literal notranslate"><span class="pre">[WDL]</span></code>, <code class="docutils literal notranslate"><span class="pre">[PIPELINE]</span></code>, <code class="docutils literal notranslate"><span class="pre">[CONDA_ENV]</span></code> and <code class="docutils literal notranslate"><span class="pre">[WORKFLOW_OPT]</span></code> according to your platforms, kind of pipeline (<code class="docutils literal notranslate"><span class="pre">.wdl</span></code>) and presence of MySQL database and <code class="docutils literal notranslate"><span class="pre">Docker</span></code>.</p>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">[BACKEND_FILE]</span></code> (not required for DNANexus)</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">backends/backend.conf</span></code> : backend conf. file for all backends.</li>
+<li><code class="docutils literal notranslate"><span class="pre">backends/backend_db.conf</span></code> : backend conf. file for all backends with MySQL DB.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">[BACKEND]</span></code> (not required for DNANexus)</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">Local</span></code> : local (by default).</li>
+<li><code class="docutils literal notranslate"><span class="pre">google</span></code> : Google Cloud Platform.</li>
+<li><code class="docutils literal notranslate"><span class="pre">sge</span></code> : Sun GridEngine.</li>
+<li><code class="docutils literal notranslate"><span class="pre">slurm</span></code> : SLURM.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">[PIPELINE]</span></code></dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">atac</span></code> : ENCODE ATAC/DNase-Seq pipeline</li>
+<li><code class="docutils literal notranslate"><span class="pre">chip</span></code> : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">[WDL]</span></code></dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">atac.wdl</span></code> : ENCODE ATAC/DNase-Seq pipeline</li>
+<li><code class="docutils literal notranslate"><span class="pre">chip.wdl</span></code> : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">[CONDA_ENV]</span></code> (for systems without <cite>Docker</cite> support)</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">encode-atac-seq-pipeline</span></code> : ENCODE ATAC/DNase-Seq pipeline</li>
+<li><code class="docutils literal notranslate"><span class="pre">encode-chip-seq-pipeline</span></code> : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">[WORKFLOW_OPT]</span></code> (not required for DNANexus)</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">docker.json</span></code> : for systems with <cite>Docker</cite> support (Google Cloud, local, …).</li>
+<li><code class="docutils literal notranslate"><span class="pre">sge.json</span></code> : Sun GridEngine (here you can specify your own queue and parallel environment).</li>
+<li><code class="docutils literal notranslate"><span class="pre">slurm.json</span></code> : SLURM (here you can specify your partition for <code class="docutils literal notranslate"><span class="pre">sbatch</span> <span class="pre">-p</span></code> or account for <code class="docutils literal notranslate"><span class="pre">sbatch</span> <span class="pre">--account</span></code>).</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
 </div>
-<div class="section" id="google">
-<h2>Google<a class="headerlink" href="#google" title="Permalink to this headline">¶</a></h2>
-<p>google</p>
+<div class="section" id="dnanexus-platform">
+<h2>DNANexus Platform<a class="headerlink" href="#dnanexus-platform" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Sign up for a new account on <a class="reference external" href="https://www.dnanexus.com/">DNANexus web site</a>.</p>
+</li>
+<li><p class="first">Create a project <code class="docutils literal notranslate"><span class="pre">[DX_PRJ]</span></code>.</p>
+</li>
+<li><p class="first">Install <a class="reference external" href="https://wiki.dnanexus.com/Downloads#DNAnexus-Platform-SDK">DNANexus SDK</a> on your local computer and login on that project:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install dxpy
+$ dx login
+</pre></div>
+</div>
+</li>
+<li><p class="first">Download the latest <code class="docutils literal notranslate"><span class="pre">dxWDL</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://github.com/dnanexus/dxWDL/releases/download/0.60.2/dxWDL-0.60.2.jar
+$ chmod +x dxWDL-0.60.2.jar
+</pre></div>
+</div>
+</li>
+<li><p class="first">Convert WDL to a workflow on DNANexus web UI. Make sure that URIs in your <code class="docutils literal notranslate"><span class="pre">input.json</span></code> are valid (starting with <code class="docutils literal notranslate"><span class="pre">dx://</span></code>) for DNANexus:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -jar dxWDL-0.60.2.jar -f -folder [DEST_DIR_ON_DX] -defaults input.json
+</pre></div>
+</div>
+</li>
+<li><p class="first">Check if a new workflow is generated on a directory <code class="docutils literal notranslate"><span class="pre">[DEST_DIR_ON_DX]</span></code> on your project <code class="docutils literal notranslate"><span class="pre">[DX_PRJ]</span></code>.</p>
+</li>
+<li><p class="first">Click on a workflow, specify output directory and then launch it.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="google-cloud-platform">
+<h2>Google Cloud Platform<a class="headerlink" href="#google-cloud-platform" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Create a <a class="reference external" href="https://console.developers.google.com/project">Google Project</a>.</p>
+</li>
+<li><p class="first">Set up a <a class="reference external" href="https://console.cloud.google.com/storage/browser">Google Cloud Storage bucket</a> to store outputs.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Enable the following API’s in your <a class="reference external" href="https://console.developers.google.com/apis/library">API Manager</a>.</dt>
+<dd><ul class="first last simple">
+<li>Google Compute Engine</li>
+<li>Google Cloud Storage</li>
+<li>Genomics API</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Set quota for <code class="docutils literal notranslate"><span class="pre">Google</span> <span class="pre">Compute</span> <span class="pre">Engine</span> <span class="pre">API</span></code> on <a class="reference external" href="https://console.cloud.google.com/iam-admin/quotas">https://console.cloud.google.com/iam-admin/quotas</a> per region. Increase quota for SSD/HDD storage, number of vCPUs to process more samples faster simulateneouly.</dt>
+<dd><ul class="first last simple">
+<li>CPUs</li>
+<li>Persistent Disk Standard (GB)</li>
+<li>Persistent Disk SSD (GB)</li>
+<li>In-use IP addresses</li>
+<li>Networks</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Set <code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.zones</span></code> in <code class="docutils literal notranslate"><span class="pre">workflow_opts/docker.json</span></code> as your preferred Google Cloud zone:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;default_runtime_attributes&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="o">...</span>
+    <span class="s2">&quot;zones&quot;</span><span class="p">:</span> <span class="s2">&quot;us-west1-a us-west1-b us-west1-c&quot;</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Set <code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.preemptible</span></code> as <code class="docutils literal notranslate"><span class="pre">&quot;0&quot;</span></code> to disable preemptible instances. Pipeline defaults not to use <a class="reference external" href="https://cloud.google.com/compute/docs/instances/preemptible">preemptible instances</a>. If all retrial fails then the instance will be upgraded to a regular one. <strong>Disabling it will cost you significantly more</strong> but you can get your samples processed much faster and stabler. Preemptible instance is disabled by default for hard tasks like <cite>bowtie2</cite> and <cite>bwa</cite> since they can take longer than the limit (24 hours) of preemptible instances:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;default_runtime_attributes&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="o">...</span>
+    <span class="s2">&quot;preemptible&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">If you are already on a VM instance on your Google Project. Skip previous two steps.</p>
+</li>
+<li><p class="first">Install <a class="reference external" href="https://cloud.google.com/sdk/downloads">Google Cloud Platform SDK</a> and authenticate through it. You will be asked to enter verification keys. Get keys from the URLs they provide:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gcloud auth login --no-launch-browser
+$ gcloud auth application-default login --no-launch-browser
+</pre></div>
+</div>
+</li>
+<li><p class="first">Get on the Google Project:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gcloud config set project [PROJ_NAME]
+</pre></div>
+</div>
+</li>
+<li><p class="first">Download the latest <code class="docutils literal notranslate"><span class="pre">Cromwell</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://github.com/broadinstitute/cromwell/releases/download/31/cromwell-31.jar
+$ chmod +x cromwell-31.jar
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run a pipeline. Make sure that URIs in your <code class="docutils literal notranslate"><span class="pre">input.json</span></code> are valid (starting with <code class="docutils literal notranslate"><span class="pre">gs://</span></code>) for Google Cloud Platform. Use any string for <code class="docutils literal notranslate"><span class="pre">[SAMPLE_NAME]</span></code> to distinguish between multiple samples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-31.jar run [WDL] -i input.json -o workflow_opts/docker_google.json
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="local-computer-with-docker">
+<h2>Local computer with <cite>Docker</cite><a class="headerlink" href="#local-computer-with-docker" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Install <a class="reference external" href="#dependency-installation">dependencies</a> for installing genome data.</p>
+</li>
+<li><p class="first">Install <a class="reference external" href="#genome-data-installation">genome data</a>.</p>
+</li>
+<li><p class="first">Run a pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="local-computer-without-docker">
+<h2>Local computer without <cite>Docker</cite><a class="headerlink" href="#local-computer-without-docker" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Install <a class="reference external" href="#dependency-installation">dependencies</a>.</p>
+</li>
+<li><p class="first">Install <a class="reference external" href="#genome-data-installation">genome data</a>.</p>
+</li>
+<li><p class="first">Run a pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json
+$ source deactivate
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="sun-gridengine-sge">
+<h2>Sun GridEngine (SGE)<a class="headerlink" href="#sun-gridengine-sge" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Set your parallel environment (<cite>default_runtime_attributes.sge_pe</cite>) and queue (<cite>default_runtime_attributes.sge_queue</cite>) in <cite>workflow_opts/sge.json</cite>. If there is no parallel environment on your SGE then ask your SGE admin to create one. <cite>sge_queue</cite> is optional:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qconf -spl
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install <a class="reference external" href="#dependency-installation">dependencies</a>.</p>
+</li>
+<li><p class="first">Install <a class="reference external" href="#genome-data-installation">genome data</a>.</p>
+</li>
+<li><p class="first">Run a pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/sge.json
+$ source deactivate
+</pre></div>
+</div>
+</li>
+<li><p class="first">If you want to run multiple (&gt;10) pipelines, then run a Cromwell server on an interactive node. We recommend to use <cite>screen</cite> or <cite>tmux</cite> to keep your session alive and note that all running pipelines will be killed after walltime:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qlogin ... # some qlogin command with some (&gt;=2) cpu, enough memory (&gt;=5G) and long walltime (&gt;=2day)
+$ hostname -f # to get [CROMWELL_SVR_IP]
+$ source activate [CONDA_ENV]
+$ _JAVA_OPTIONS=&quot;-Xmx5G&quot; java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=sge cromwell-31.jar server
+</pre></div>
+</div>
+</li>
+<li><p class="first">You can modify <code class="docutils literal notranslate"><span class="pre">backend.providers.sge.concurrent-job-limit</span></code> in <code class="docutils literal notranslate"><span class="pre">backends/backend.conf</span></code> to increase maximum concurrent jobs. This limit is <strong>not per sample</strong>. It’s for all sub-tasks of all submitted samples.</p>
+</li>
+<li><p class="first">On a login node, submit jobs to the cromwell server. You will get <code class="docutils literal notranslate"><span class="pre">[WORKFLOW_ID]</span></code> as a return value. Keep these workflow IDs for monitoring pipelines and finding outputs for a specific sample later:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ curl -X POST --header &quot;Accept: application/json&quot; -v &quot;[CROMWELL_SVR_IP]:8000/api/workflows/v1&quot; \
+    -F workflowSource=@[WDL] \
+    -F workflowInputs=@input.json \
+    -F workflowOptions=@workflow_opts/sge.json
+</pre></div>
+</div>
+</li>
+<li><p class="first">To monitor pipelines, see <a class="reference external" href="http://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api">Cromwell server REST API description</a> for more details. <code class="docutils literal notranslate"><span class="pre">qstat</span></code> will not give enough information for monitoring per sample:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ curl -X GET --header &quot;Accept: application/json&quot; -v &quot;[CROMWELL_SVR_IP]:8000/api/workflows/v1/[WORKFLOW_ID]/status&quot;
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="slurm">
+<h2>SLURM<a class="headerlink" href="#slurm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Genome data have already been installed and shared on Stanford Sherlock and SCG. You can skip step 3 on these clusters.</p>
+</div>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Set your partition (<code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.slurm_partition</span></code>) or account (<code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.slurm_account</span></code>) in <cite>workflow_opts/slurm.json</cite>. Those two attibutes are optional according to your SLURM server configuration.</dt>
+<dd><div class="first last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Remove <code class="docutils literal notranslate"><span class="pre">slurm_account</span></code> on Sherlock and <code class="docutils literal notranslate"><span class="pre">slurm_partition</span></code> on SCG.</p>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first">Install <a class="reference external" href="#dependency-installation">dependencies</a>.</p>
+</li>
+<li><p class="first">Install <a class="reference external" href="#genome-data-installation">genome data</a>.</p>
+</li>
+<li><p class="first">Run a pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/slurm.json
+$ source deactivate
+</pre></div>
+</div>
+</li>
+<li><p class="first">If you want to run multiple (&gt;10) pipelines, then run a Cromwell server on an interactive node. We recommend to use <cite>screen</cite> or <cite>tmux</cite> to keep your session alive and note that all running pipelines will be killed after walltime:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ srun -n 2 --mem 5G -t 3-0 --qos normal --account [ACCOUNT] -p [PARTITION] --pty /bin/bash -i -l # some srun command with some (&gt;=2) cpu, enough memory (&gt;=5G) and long walltime (&gt;=2day)
+$ hostname -f # to get [CROMWELL_SVR_IP]
+$ source activate [CONDA_ENV]
+$ _JAVA_OPTIONS=&quot;-Xmx5G&quot; java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=slurm cromwell-31.jar server
+</pre></div>
+</div>
+</li>
+<li><p class="first">You can modify <code class="docutils literal notranslate"><span class="pre">backend.providers.slurm.concurrent-job-limit</span></code> in <code class="docutils literal notranslate"><span class="pre">backends/backend.conf</span></code> to increase maximum concurrent jobs. This limit is <strong>not per sample</strong>. It’s for all sub-tasks of all submitted samples.</p>
+</li>
+<li><p class="first">On a login node, submit jobs to the cromwell server. You will get <code class="docutils literal notranslate"><span class="pre">[WORKFLOW_ID]</span></code> as a return value. Keep these workflow IDs for monitoring pipelines and finding outputs for a specific sample later:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ curl -X POST --header &quot;Accept: application/json&quot; -v &quot;[CROMWELL_SVR_IP]:8000/api/workflows/v1&quot; \
+    -F workflowSource=@[WDL] \
+    -F workflowInputs=@input.json \
+    -F workflowOptions=@workflow_opts/slurm.json
+</pre></div>
+</div>
+</li>
+<li><p class="first">To monitor pipelines, see <a class="reference external" href="http://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api">Cromwell server REST API description</a> for more details. <code class="docutils literal notranslate"><span class="pre">squeue</span></code> will not give enough information for monitoring per sample:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ curl -X GET --header &quot;Accept: application/json&quot; -v &quot;[CROMWELL_SVR_IP]:8000/api/workflows/v1/[WORKFLOW_ID]/status&quot;
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="kundaje-lab-cluster-with-docker">
+<h2>Kundaje lab cluster with <cite>Docker</cite><a class="headerlink" href="#kundaje-lab-cluster-with-docker" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Jobs will run locally without being submitted to Sun GridEngine (SGE). Genome data have already been installed and shared.</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Run a pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="kundaje-lab-cluster-with-sge">
+<h2>Kundaje lab cluster with SGE<a class="headerlink" href="#kundaje-lab-cluster-with-sge" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nodes. Genome data have already been installed and shared.</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Install <a class="reference external" href="#dependency-installation">dependencies</a>.</p>
+</li>
+<li><p class="first">Run a pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/sge.json
+$ source deactivate
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="dependency-installation">
+<h2>Dependency installation<a class="headerlink" href="#dependency-installation" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">WE DO NOT RECOMMEND RUNNING OUR PIPELINE WITHOUT <cite>DOCKER</cite>! Use it with caution.</p>
+</div>
+<ol class="arabic">
+<li><p class="first"><strong>Our pipeline is for BASH only. Set your default shell as BASH</strong>.</p>
+</li>
+<li><p class="first">For Mac OSX users, do not install dependencies and just install <cite>Docker</cite> and use our pipeline with it.</p>
+</li>
+<li><p class="first">Remove any Conda (Anaconda Python and Miniconda) from your <cite>PATH</cite>. <strong>PIPELINE WILL NOT WORK IF YOU HAVE OTHER VERSION OF CONDA BINARIES IN `PATH`</strong>.</p>
+</li>
+<li><p class="first">Install Miniconda3 for 64-bit Linux on your system. Miniconda2 will not work. If your system is 32-bit Linux then try with <cite>x86_32</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+$ bash Miniconda3-latest-Linux-x86_64.sh -b -p [MINICONDA3_INSTALL_DIR]
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add <cite>PATH</cite> for our pipeline Python scripts and Miniconda3 to one of your bash startup scripts (<code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">$HOME/.bash_profile</span></code>).</p>
+</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">unset</span> PYTHONPATH
+<span class="nb">export</span> <span class="nv">PYTHON_EGG_CACHE</span><span class="o">=</span>/tmp
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=[</span>WDL_PIPELINE_DIR<span class="o">]</span>/src:<span class="nv">$PATH</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=[</span>MINICONDA3_INSTALL_DIR<span class="o">]</span>/bin:<span class="nv">$PATH</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic">
+<li><p class="first">Re-login.</p>
+</li>
+<li><p class="first">Make sure that conda correctly points to <code class="docutils literal notranslate"><span class="pre">[MINICONDA3_INSTALL_DIR]/bin/conda</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ which conda
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install dependencies on Minconda3 environment. Java 8 JDK and Cromwell-29 are included in the installation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd installers/
+$ source activate [CONDA_ENV]
+$ bash install_dependencies.sh
+$ source deactivate
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>ACTIVATE MINICONDA3 ENVIRONMENT</strong> and run a pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=[BACKEND] cromwell-30.2.jar run [WDL] -i input.json
+$ source deactivate
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="genome-data-installation">
+<h2>Genome data installation<a class="headerlink" href="#genome-data-installation" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">WE DO NOT RECOMMEND RUNNING OUR PIPELINE WITH LOCALLY INSTALLED/BUILT GENOME DATA! Use it with caution. We will provide an official downloader for all genome data later**. Cromwell is planning to support AWS buckets (<cite>s3://</cite>). Until then, use this installer.</p>
+</div>
+<p><strong>On Google Cloud TSV</strong> files are already installed and shared on a bucket <cite>gs://encode-chip-seq-pipeline-genome-data</cite>.</p>
+<p>Supported genomes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>hg38: ENCODE [GRCh38_no_alt_analysis_set_GCA_000001405](<a class="reference external" href="https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz">https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz</a>)</li>
+<li>mm10: ENCODE [mm10_no_alt_analysis_set_ENCODE](<a class="reference external" href="https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/&#64;&#64;download/mm10_no_alt_analysis_set_ENCODE.fasta.gz">https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/&#64;&#64;download/mm10_no_alt_analysis_set_ENCODE.fasta.gz</a>)</li>
+<li>hg19: ENCODE [GRCh37/hg19](<a class="reference external" href="http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz">http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz</a>)</li>
+<li>mm9: [mm9, NCBI Build 37](<a class="reference external" href="http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit">http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit</a>)</li>
+</ul>
+</div></blockquote>
+<p>A TSV file will be generated under <code class="docutils literal notranslate"><span class="pre">[DEST_DIR]</span></code>. Use it for <code class="docutils literal notranslate"><span class="pre">[PIPELINE].genome_tsv</span></code> value in pipeline’s input JSON file.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not install genome data on Stanford clusters (Sherlock and SCG). They already have all genome data installed. Use <code class="docutils literal notranslate"><span class="pre">genome/[GENOME]_sherlock.tsv</span></code> or <code class="docutils literal notranslate"><span class="pre">genome/[GENOME]_scg4.tsv</span></code> as your TSV file.</p>
+</div>
+<ol class="arabic">
+<li><p class="first">For Mac OSX users, if <a class="reference external" href="#dependency-installation">dependencies</a> does not work then post an issue on the repo.</p>
+</li>
+<li><p class="first">Install <a class="reference external" href="#dependency-installation">dependencies</a>.</p>
+</li>
+<li><p class="first">Install genome data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd installers/
+$ source activate [CONDA_ENV]
+$ bash install_genome_data.sh [GENOME] [DEST_DIR]
+$ source deactivate
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="custom-genome-data-installation">
+<h2>Custom genome data installation<a class="headerlink" href="#custom-genome-data-installation" title="Permalink to this headline">¶</a></h2>
+<p>You can also install genome data for any species if you have a valid URL for reference <code class="docutils literal notranslate"><span class="pre">fasta</span></code> (<cite>.fa</cite>, <cite>.fasta</cite> or ‘.gz’)  or <code class="docutils literal notranslate"><span class="pre">2bit</span></code> file. Modfy <code class="docutils literal notranslate"><span class="pre">installers/install_genome_data.sh</span></code> like the following.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">elif</span> <span class="o">[[</span> <span class="nv">$GENOME</span> <span class="o">==</span> <span class="s2">&quot;mm10&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nv">REF_FA</span><span class="o">=</span><span class="s2">&quot;https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/@@download/mm10_no_alt_analysis_set_ENCODE.fasta.gz&quot;</span>
+  <span class="nv">BLACKLIST</span><span class="o">=</span><span class="s2">&quot;http://mitra.stanford.edu/kundaje/genome_data/mm10/mm10.blacklist.bed.gz&quot;</span>
+
+<span class="k">elif</span> <span class="o">[[</span> <span class="nv">$GENOME</span> <span class="o">==</span> <span class="s2">&quot;[YOUR_CUSTOM_GENOME_NAME]&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nv">REF_FA</span><span class="o">=</span><span class="s2">&quot;[YOUR_CUSTOM_GENOME_FA_OR_2BIT_URL]&quot;</span>
+  <span class="nv">BLACKLIST</span><span class="o">=</span><span class="s2">&quot;[YOUR_CUSTOM_GENOME_BLACKLIST_BED]&quot;</span> <span class="c1"># if there is no blacklist then comment this line out.</span>
+
+<span class="k">fi</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="mysql-database-configuration">
+<h2>MySQL database configuration<a class="headerlink" href="#mysql-database-configuration" title="Permalink to this headline">¶</a></h2>
+<p>There are several advantages (call-caching and managing multiple workflows) to use Cromwell with MySQL DB. Call-caching is disabled in <code class="docutils literal notranslate"><span class="pre">[BACKEND_FILE]</span></code> by default.</p>
+<p>Find an initialization script directory <code class="docutils literal notranslate"><span class="pre">[INIT_SQL_DIR]</span></code> for MySQL database. It’s located at <code class="docutils literal notranslate"><span class="pre">docker_image/mysql</span></code> on github repo of any ENCODE/Kundaje lab WDL pipelines. If you want to change username and password, make sure to match with those in the following command lines and <code class="docutils literal notranslate"><span class="pre">[BACKEND_FILE]</span></code> (<code class="docutils literal notranslate"><span class="pre">backends/backend_with_db.conf</span></code>).</p>
+</div>
+<div class="section" id="running-mysql-server-with-docker">
+<h2>Running MySQL server with <code class="docutils literal notranslate"><span class="pre">Docker</span></code><a class="headerlink" href="#running-mysql-server-with-docker" title="Permalink to this headline">¶</a></h2>
+<p>Choose your destination directory <code class="docutils literal notranslate"><span class="pre">[MYSQL_DB_DIR]</span></code> for storing all data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker run -d --name mysql-cromwell -v [MYSQL_DB_DIR]:/var/lib/mysql -v [INIT_SQL_DIR]:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=cromwell -e MYSQL_DATABASE=cromwell_db --publish 3306:3306 mysql
+</pre></div>
+</div>
+<p>To stop MySQL:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker stop mysql-cromwell
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-mysql-without-docker">
+<h2>Running MySQL without <cite>Docker</cite><a class="headerlink" href="#running-mysql-without-docker" title="Permalink to this headline">¶</a></h2>
+<p>Ask your DB admin to run <cite>[INIT_SQL_DIR]</cite>. You cannot specify destination directory for storing all data. It’s locally stored on <cite>/var/lib/mysql</cite> for most versions of MySQL by default.</p>
 </div>
 </div>
 
@@ -52,8 +500,21 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Installation</a><ul>
-<li><a class="reference internal" href="#dnanexus">DNANexus</a></li>
-<li><a class="reference internal" href="#google">Google</a></li>
+<li><a class="reference internal" href="#general-usage">General usage</a></li>
+<li><a class="reference internal" href="#dnanexus-platform">DNANexus Platform</a></li>
+<li><a class="reference internal" href="#google-cloud-platform">Google Cloud Platform</a></li>
+<li><a class="reference internal" href="#local-computer-with-docker">Local computer with <cite>Docker</cite></a></li>
+<li><a class="reference internal" href="#local-computer-without-docker">Local computer without <cite>Docker</cite></a></li>
+<li><a class="reference internal" href="#sun-gridengine-sge">Sun GridEngine (SGE)</a></li>
+<li><a class="reference internal" href="#slurm">SLURM</a></li>
+<li><a class="reference internal" href="#kundaje-lab-cluster-with-docker">Kundaje lab cluster with <cite>Docker</cite></a></li>
+<li><a class="reference internal" href="#kundaje-lab-cluster-with-sge">Kundaje lab cluster with SGE</a></li>
+<li><a class="reference internal" href="#dependency-installation">Dependency installation</a></li>
+<li><a class="reference internal" href="#genome-data-installation">Genome data installation</a></li>
+<li><a class="reference internal" href="#custom-genome-data-installation">Custom genome data installation</a></li>
+<li><a class="reference internal" href="#mysql-database-configuration">MySQL database configuration</a></li>
+<li><a class="reference internal" href="#running-mysql-server-with-docker">Running MySQL server with <code class="docutils literal notranslate"><span class="pre">Docker</span></code></a></li>
+<li><a class="reference internal" href="#running-mysql-without-docker">Running MySQL without <cite>Docker</cite></a></li>
 </ul>
 </li>
 </ul>
@@ -61,6 +522,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">ENCODE genomic pipelines</a></li>
+      <li>Next: <a href="input_json_chip.html" title="next chapter">Input JSON for <code class="docutils literal notranslate"><span class="pre">chip.wdl</span></code></a></li>
   </ul></li>
 </ul>
 </div>

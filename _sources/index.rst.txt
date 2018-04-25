@@ -9,31 +9,44 @@ ENCODE genomic pipelines
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :hidden:
 
    install.rst
+   input_json_chip.rst
+   input_json_atac.rst
+   output_chip.rst
+   output_atac.rst
 
-* AQUAS Histone/TF ChIP-Seq pipeline
-* ATAC/DNase-Seq pipeline
+* `ATAC/DNase-Seq pipeline <https://github.com/ENCODE-DCC/atac-seq-pipeline>`_
+* `AQUAS Histone/TF ChIP-Seq pipeline <https://github.com/ENCODE-DCC/chip-seq-pipeline2>`_
 
 Installation
-============
+------------
 
-* `DNANexus <install.rst>`_
-.. * `Google Cloud Platform`_
-.. * `Stanford Sherlock (SLURM)`_
-.. * `Stanford SCG (SLURM)`_
-.. * `SLURM`_
-.. * `SGE`_
-.. * `Local`_
+* `DNANexus Platform <install.html#dnanexus-platform>`_
+* `Google Cloud Platform <install.html#google-cloud-platform>`_
+* `SLURM <install.html#slurm>`_
+* `Sun GridEngine (SGE) <install.html#sun-gridengine-sge>`_
+* `Local (with Docker) <install.html#local-computer-with-docker>`_
+* `Local (without Docker) <install.html#local-computer-without-docker>`_
 
-Input JSON definition
-=====================
+Input JSON
+----------
 
-* AQUAS Histone/TF ChIP-Seq pipeline
-* ATAC/DNase-Seq pipeline
+* `ATAC/DNase-Seq pipeline <input_json_atac.html>`_
+* `AQUAS Histone/TF ChIP-Seq pipeline <input_json_chip.html>`_
+* RNA-Seq pipeline
+* ...
+
+Output specification
+--------------------
+* `ATAC/DNase-Seq pipeline <output_atac.html>`_
+* `AQUAS Histone/TF ChIP-Seq pipeline <output_chip.html>`_
+* RNA-Seq pipeline
+* ...
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

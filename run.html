@@ -1,0 +1,454 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Installation &#8212; ENCODE genomic pipelines  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="id1">
+<h1>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p># Usage</p>
+<p>Choose <cite>[BACKEND_FILE]</cite>, <cite>[BACKEND]</cite>, <cite>[WDL]</cite>, <cite>[PIPELINE]</cite>, <cite>[CONDA_ENV]</cite> and <cite>[WORKFLOW_OPT]</cite> according to your platforms, kind of pipeline (<cite>.wdl</cite>) and presence of MySQL database and <cite>Docker</cite>.</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><cite>[BACKEND_FILE]</cite> (not required for DNANexus)</dt>
+<dd><ul class="first last">
+<li><cite>backends/backend.conf</cite> : backend conf. file for all backends.</li>
+<li><cite>backends/backend_db.conf</cite> : backend conf. file for all backends with MySQL DB.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>[BACKEND]</cite> (not required for DNANexus)</dt>
+<dd><ul class="first last">
+<li><cite>Local</cite> : local (by default).</li>
+<li><cite>google</cite> : Google Cloud Platform.</li>
+<li><cite>sge</cite> : Sun GridEngine.</li>
+<li><cite>slurm</cite> : SLURM.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>[PIPELINE]</cite></dt>
+<dd><ul class="first last">
+<li><cite>atac</cite> : ENCODE ATAC/DNase-Seq pipeline</li>
+<li><cite>chip</cite> : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>[WDL]</cite></dt>
+<dd><ul class="first last">
+<li><cite>atac.wdl</cite> : ENCODE ATAC/DNase-Seq pipeline</li>
+<li><cite>chip.wdl</cite> : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>[CONDA_ENV]</cite> (for systems without <cite>Docker</cite> support)</dt>
+<dd><ul class="first last">
+<li><cite>encode-atac-seq-pipeline</cite> : ENCODE ATAC/DNase-Seq pipeline</li>
+<li><cite>encode-chip-seq-pipeline</cite> : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>[WORKFLOW_OPT]</cite> (not required for DNANexus)</dt>
+<dd><ul class="first last">
+<li><cite>docker.json</cite> : for systems with <cite>Docker</cite> support (Google Cloud, local, …).</li>
+<li><cite>sge.json</cite> : Sun GridEngine (here you can specify your own queue and parallel environment).</li>
+<li><cite>slurm.json</cite> : SLURM (here you can specify your partition or account).</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="dnanexus-platform">
+<h2>DNANexus Platform<a class="headerlink" href="#dnanexus-platform" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt>Download the latest <code class="docutils literal notranslate"><span class="pre">dxWDL</span></code> first.</dt>
+<dd>$ wget <a class="reference external" href="https://github.com/dnanexus/dxWDL/releases/download/0.61.1/dxWDL-0.61.1.jar">https://github.com/dnanexus/dxWDL/releases/download/0.61.1/dxWDL-0.61.1.jar</a>
+$ chmod +x dxWDL-0.61.1.jar</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Convert a WDL script to an equivalent workflow on DNANexus.</dt>
+<dd>$ java -jar dxWDL-0.61.1.jar compile [WDL] -f -folder [DEST_DIR_ON_DX_PRJ] -defaults [INPUT_JSON]</dd>
+</dl>
+</li>
+<li>Run with <code class="docutils literal notranslate"><span class="pre">dx</span></code> CLI or on a web interface.</li>
+</ol>
+<p>## Running with Cromwell (server mode for Google Cloud)
+Use [Cromwell server REST API](<a class="reference external" href="https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api">https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api</a>) for submitting/monitoring/stopping your pipielines. All pipeline outputs will be stored on <cite>[GC_BUCKET]</cite>.</p>
+<blockquote>
+<div></div></blockquote>
+<dl class="docutils">
+<dt>$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[GC_BUCKET] cromwell-30.2.jar server</dt>
+<dd></dd>
+</dl>
+<p>## Running with Cromwell (single workflow mode)
+Download the latest <cite>cromwell</cite> first.</p>
+<blockquote>
+<div></div></blockquote>
+<p>$ wget <a class="reference external" href="https://github.com/broadinstitute/cromwell/releases/download/30.2/cromwell-30.2.jar">https://github.com/broadinstitute/cromwell/releases/download/30.2/cromwell-30.2.jar</a>
+$ chmod +x cromwell-30.2.jar</p>
+<blockquote>
+<div></div></blockquote>
+<dl class="docutils">
+<dt>Command line interface to run a single pipeline.</dt>
+<dd></dd>
+<dt>$ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30.2.jar run [WDL] -i input.json -o [WORKFLOW_OPT]</dt>
+<dd></dd>
+</dl>
+<p>## Running with Cromwell (server mode)
+Use [Cromwell server REST API](<a class="reference external" href="https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api">https://cromwell.readthedocs.io/en/develop/api/RESTAPI/#cromwell-server-rest-api</a>) for submitting/monitoring/stopping your pipielines.</p>
+<blockquote>
+<div></div></blockquote>
+<dl class="docutils">
+<dt>$ java -jar -Dconfig.file=[BACKEND_FILE] -Dbackend.default=[BACKEND] cromwell-30.2.jar server</dt>
+<dd></dd>
+</dl>
+<p>### Google Cloud Platform</p>
+<ol class="arabic simple" start="11">
+<li><dl class="first docutils">
+<dt>Run a pipeline. Make sure that URIs in your <cite>input.json</cite> are valid (starting with <cite>gs://</cite>) for Google Cloud. Use any string for <cite>[SAMPLE_NAME]</cite> to distinguish between multiple samples.</dt>
+<dd></dd>
+<dt>$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker_google.json</dt>
+<dd></dd>
+</dl>
+</li>
+</ol>
+<p>### Local computer with <cite>Docker</cite></p>
+<ol class="arabic">
+<li><p class="first">Install [dependencies](#dependency-installation) for installing genome data.</p>
+</li>
+<li><p class="first">Install [genome data](#genome-data-installation).</p>
+</li>
+<li><dl class="first docutils">
+<dt>Run a pipeline.</dt>
+<dd><blockquote class="first">
+<div></div></blockquote>
+<dl class="last docutils">
+<dt>$ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json</dt>
+<dd></dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ol>
+<p>### Local computer without <cite>Docker</cite></p>
+<ol class="arabic">
+<li><p class="first">Install [dependencies](#dependency-installation).</p>
+</li>
+<li><p class="first">Install [genome data](#genome-data-installation).</p>
+</li>
+<li><dl class="first docutils">
+<dt>Run a pipeline.</dt>
+<dd><blockquote class="first">
+<div></div></blockquote>
+<p>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json
+$ source deactivate</p>
+<blockquote class="last">
+<div></div></blockquote>
+</dd>
+</dl>
+</li>
+</ol>
+<p>### Sun GridEngine (SGE)</p>
+<p>Genome data have already been installed and shared on Stanford SCG4. You can skip step 3 on SCG4.
+1) Set your parallel environment (<cite>default_runtime_attributes.sge_pe</cite>) and queue (<cite>default_runtime_attributes.sge_queue</cite>) in <cite>workflow_opts/sge.json</cite>. If there is no parallel environment on your SGE then ask your SGE admin to create one. <cite>sge_queue</cite> is optional.</p>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<dl class="docutils">
+<dt>$ qconf -spl</dt>
+<dd></dd>
+</dl>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p class="first">Install [dependencies](#dependency-installation).</p>
+</li>
+<li><p class="first">Install [genome data](#genome-data-installation).</p>
+</li>
+<li><dl class="first docutils">
+<dt>Run a pipeline.</dt>
+<dd><blockquote class="first">
+<div></div></blockquote>
+<p>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/sge.json
+$ source deactivate</p>
+<blockquote class="last">
+<div></div></blockquote>
+</dd>
+</dl>
+</li>
+</ol>
+<p>### SLURM</p>
+<p>Genome data have already been installed and shared on Stanford Sherlock. You can skip step 3 on Sherlock.
+1) Set your partition (<cite>default_runtime_attributes.slurm_partition</cite>) or account (<cite>default_runtime_attributes.slurm_account</cite>) in <cite>workflow_opts/slurm.json</cite>. Those two attibutes are optional according to your SLURM server configuration.
+2) Install [dependencies](#dependency-installation).
+3) Install [genome data](#genome-data-installation).
+4) Run a pipeline.</p>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<p>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/slurm.json
+$ source deactivate</p>
+<blockquote>
+<div></div></blockquote>
+</div></blockquote>
+<p>### Kundaje lab cluster with <cite>Docker</cite></p>
+<p>Jobs will run locally without being submitted to Sun GridEngine (SGE). Genome data have already been installed and shared.
+1) Run a pipeline.</p>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<dl class="docutils">
+<dt>$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=Local cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json</dt>
+<dd></dd>
+</dl>
+</div></blockquote>
+<p>### Kundaje lab cluster with Sun GridEngine (SGE)</p>
+<p>Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nodes. Genome data have already been installed and shared.
+1) Install [dependencies](#dependency-installation).
+2) Run a pipeline.</p>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<p>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/sge.json
+$ source deactivate</p>
+<blockquote>
+<div></div></blockquote>
+</div></blockquote>
+<p># Dependency installation</p>
+<p><strong>WE DO NOT RECOMMEND RUNNING OUR PIPELINE WITHOUT `DOCKER`!</strong> Use it with caution.
+1) <strong>Our pipeline is for BASH only. Set your default shell as BASH</strong>.
+2) For Mac OSX users, do not install dependencies and just install <cite>Docker</cite> and use our pipeline with it.
+3) Remove any Conda (Anaconda Python and Miniconda) from your <cite>PATH</cite>. <strong>PIPELINE WILL NOT WORK IF YOU HAVE OTHER VERSION OF CONDA BINARIES IN `PATH`</strong>.
+4) Install Miniconda3 for 64-bit Linux on your system. Miniconda2 will not work. If your system is 32-bit Linux then try with <cite>x86_32</cite>.</p>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<p>$ wget <a class="reference external" href="https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh">https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh</a>
+$ bash Miniconda3-latest-Linux-x86_64.sh -b -p [MINICONDA3_INSTALL_DIR]</p>
+<blockquote>
+<div></div></blockquote>
+</div></blockquote>
+<ol class="arabic" start="5">
+<li><dl class="first docutils">
+<dt>Add <cite>PATH</cite> for our pipeline Python scripts and Miniconda3 to one of your bash startup scripts (<cite>$HOME/.bashrc</cite>, <cite>$HOME/.bash_profile</cite>…).</dt>
+<dd></dd>
+</dl>
+<p>unset PYTHONPATH
+export PYTHON_EGG_CACHE=/tmp</p>
+<p>export PATH=[WDL_PIPELINE_DIR]/src:$PATH
+export PATH=[MINICONDA3_INSTALL_DIR]/bin:$PATH</p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><p class="first">Re-login.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Make sure that conda correctly points to <cite>[MINICONDA3_INSTALL_DIR]/bin/conda</cite>.</dt>
+<dd></dd>
+<dt>$ which conda</dt>
+<dd></dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Install dependencies on Minconda3 environment. Java 8 JDK and Cromwell-29 are included in the installation.</dt>
+<dd></dd>
+</dl>
+<p>$ cd installers/
+$ source activate [CONDA_ENV]
+$ bash install_dependencies.sh
+$ source deactivate</p>
+<blockquote>
+<div></div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ACTIVATE MINICONDA3 ENVIRONMENT</strong> and run a pipeline.</dt>
+<dd></dd>
+</dl>
+<p>$ source activate [CONDA_ENV]
+$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=[BACKEND] cromwell-30.2.jar run [WDL] -i input.json
+$ source deactivate</p>
+<blockquote>
+<div></div></blockquote>
+</li>
+</ol>
+<p># Genome data installation</p>
+<p><strong>WE DO NOT RECOMMEND RUNNING OUR PIPELINE WITH LOCALLY INSTALLED/BUILT GENOME DATA!</strong> Use it with caution. <strong>We will provide an official downloader for all genome data later</strong>. Cromwell is planning to support AWS buckets (<cite>s3://</cite>). Until then, use this installer.
+<strong>On Google Cloud TSV</strong> files are already installed and shared on a bucket <cite>gs://encode-chip-seq-pipeline-genome-data</cite>.</p>
+<p>Supported genomes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>hg38: ENCODE [GRCh38_no_alt_analysis_set_GCA_000001405](<a class="reference external" href="https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz">https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/&#64;&#64;download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz</a>)</li>
+<li>mm10: ENCODE [mm10_no_alt_analysis_set_ENCODE](<a class="reference external" href="https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/&#64;&#64;download/mm10_no_alt_analysis_set_ENCODE.fasta.gz">https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/&#64;&#64;download/mm10_no_alt_analysis_set_ENCODE.fasta.gz</a>)</li>
+<li>hg19: ENCODE [GRCh37/hg19](<a class="reference external" href="http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz">http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz</a>)</li>
+<li>mm9: [mm9, NCBI Build 37](<a class="reference external" href="http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit">http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit</a>)</li>
+</ul>
+</div></blockquote>
+<p>A TSV file will be generated under <cite>[DEST_DIR]</cite>. Use it for <cite>[PIPELINE].genome_tsv</cite> value in pipeline’s input JSON file.</p>
+<ol class="arabic">
+<li><p class="first">Do not install genome data on Stanford clusters (Sherlock-2 and SCG4). They already have all genome data installed. Use <cite>genome/[GENOME]_sherlock.tsv</cite> or <cite>genome/[GENOME]_scg4.tsv</cite> as your TSV file.</p>
+</li>
+<li><p class="first">For Mac OSX users, if [dependency installation](#dependency-installation) does not work then post an issue on the repo.</p>
+</li>
+<li><p class="first">Install [dependencies](#dependency-installation) first.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Install genome data.</dt>
+<dd></dd>
+</dl>
+<p>$ cd installers/
+$ source activate [CONDA_ENV]
+$ bash install_genome_data.sh [GENOME] [DEST_DIR]
+$ source deactivate</p>
+<blockquote>
+<div></div></blockquote>
+</li>
+</ol>
+<p>### Custom genome data installation</p>
+<dl class="docutils">
+<dt>You can also install genome data for any species if you have a valid URL for reference <cite>fasta</cite> or <cite>2bit</cite> file. Modfy <cite>installers/install_genome_data.sh</cite> like the following.</dt>
+<dd></dd>
+</dl>
+<p>…
+elif [[ $GENOME == “mm10” ]]; then</p>
+<blockquote>
+<div>REF_FA=”<a class="reference external" href="https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/&#64;&#64;download/mm10_no_alt_analysis_set_ENCODE.fasta.gz">https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/&#64;&#64;download/mm10_no_alt_analysis_set_ENCODE.fasta.gz</a>”
+BLACKLIST=”<a class="reference external" href="http://mitra.stanford.edu/kundaje/genome_data/mm10/mm10.blacklist.bed.gz">http://mitra.stanford.edu/kundaje/genome_data/mm10/mm10.blacklist.bed.gz</a>”</div></blockquote>
+<dl class="docutils">
+<dt>elif [[ $GENOME == “[YOUR_CUSTOM_GENOME_NAME]” ]]; then</dt>
+<dd>REF_FA=”[YOUR_CUSTOM_GENOME_FA_OR_2BIT_URL]”
+BLACKLIST=”[YOUR_CUSTOM_GENOME_BLACKLIST_BED]” # if there is no blacklist then comment this line out.</dd>
+</dl>
+<div class="section" id="fi">
+<h3>fi<a class="headerlink" href="#fi" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div></div></blockquote>
+<p># MySQL database configuration</p>
+<p>There are several advantages (call-caching and managing multiple workflows) to use Cromwell with MySQL DB. Call-caching is disabled in <cite>[BACKEND_FILE]</cite> by default.</p>
+<p>Find an initialization script directory <cite>[INIT_SQL_DIR]</cite> for MySQL database. It’s located at <cite>/docker_image/mysql</cite> on github repo of any ENCODE/Kundaje lab WDL pipelines. If you want to change username and password, make sure to match with those in the following command lines and <cite>[BACKEND_FILE]</cite> (<cite>backends/backend_with_db.conf</cite>).</p>
+<p>## Running MySQL server with <cite>Docker</cite></p>
+<dl class="docutils">
+<dt>Choose your destination directory <cite>[MYSQL_DB_DIR]</cite> for storing all data.</dt>
+<dd></dd>
+<dt>$ docker run -d –name mysql-cromwell -v [MYSQL_DB_DIR]:/var/lib/mysql -v [INIT_SQL_DIR]:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=cromwell -e MYSQL_DATABASE=cromwell_db –publish 3306:3306 mysql</dt>
+<dd></dd>
+<dt>To stop MySQL</dt>
+<dd></dd>
+<dt>$ docker stop mysql-cromwell</dt>
+<dd></dd>
+</dl>
+<p>## Running MySQL without <cite>Docker</cite></p>
+<p>Ask your DB admin to run <cite>[INIT_SQL_DIR]</cite>. You cannot specify destination directory for storing all data. It’s locally stored on <cite>/var/lib/mysql</cite> for most versions of MySQL by default.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a></li>
+<li><a class="reference internal" href="#id1">Installation</a><ul>
+<li><a class="reference internal" href="#dnanexus-platform">DNANexus Platform</a><ul>
+<li><a class="reference internal" href="#fi">fi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/run.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, ENCODE DCC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/run.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
