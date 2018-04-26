@@ -19,15 +19,18 @@ Choose ``[BACKEND_FILE]``, ``[BACKEND]``, ``[WDL]``, ``[PIPELINE]``, ``[CONDA_EN
     * ``slurm`` : SLURM.
 #. ``[PIPELINE]``
     * ``atac`` : ENCODE ATAC/DNase-Seq pipeline
-    * ``chip`` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
+    * ``chip`` : AQUAS TF/Histone ChIP-Seq processing pipeline
 #. ``[WDL]``
     * ``atac.wdl`` : ENCODE ATAC/DNase-Seq pipeline
-    * ``chip.wdl`` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
+    * ``chip.wdl`` : AQUAS TF/Histone ChIP-Seq processing pipeline
 #. ``[CONDA_ENV]`` (for systems without `Docker` support)
     * ``encode-atac-seq-pipeline`` : ENCODE ATAC/DNase-Seq pipeline
-    * ``encode-chip-seq-pipeline`` : AQUAS Transcription Factor and Histone ChIP-Seq processing pipeline
+    * ``encode-chip-seq-pipeline`` : AQUAS TF/Histone ChIP-Seq processing pipeline
+#. ``[DOCKER_CONTAINER]``
+    * ``quay.io/encode-dcc/atac-seq-pipeline:v1`` : ENCODE ATAC/DNase-Seq pipeline
+    * ``quay.io/encode-dcc/chip-seq-pipeline2:v1`` : AQUAS TF/Histone ChIP-Seq processing pipeline
 #. ``[WORKFLOW_OPT]`` (not required for DNANexus)
-    * ``docker.json`` : for systems with `Docker` support (Google Cloud, local, ...).
+    * ``docker.json`` : for systems with ``Docker`` support (Google Cloud, local, ...).
     * ``sge.json`` : Sun GridEngine (here you can specify your own queue and parallel environment).
     * ``slurm.json`` : SLURM (here you can specify your partition for ``sbatch -p`` or account for ``sbatch --account``).
 
@@ -103,20 +106,21 @@ Google Cloud Platform
 
 #. Run a pipeline. Make sure that URIs in your ``input.json`` are valid (starting with ``gs://``) for Google Cloud Platform. Use any string for ``[SAMPLE_NAME]`` to distinguish between multiple samples::
 
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-31.jar run [WDL] -i input.json -o workflow_opts/docker_google.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-31.jar run [WDL] -i input.json -o workflow_opts/docker.json
 
-Local computer with `Docker`
-----------------------------
-#. Install `dependencies <#dependency-installation>`_ for installing genome data.
+Local computer with ``Docker``
+------------------------------
 #. Install `genome data <#genome-data-installation>`_.
+#. Set ``[PIPELINE].genome_tsv`` in ``input.json`` as the installed genome data TSV.
 #. Run a pipeline::
 
     $ java -jar -Dconfig.file=backends/backend.conf cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/docker.json
 
-Local computer without `Docker`
--------------------------------
+Local computer without ``Docker``
+---------------------------------
 #. Install `dependencies <#dependency-installation>`_.
 #. Install `genome data <#genome-data-installation>`_.
+#. Set ``[PIPELINE].genome_tsv`` in ``input.json`` as the installed genome data TSV.
 #. Run a pipeline::
 
     $ source activate [CONDA_ENV]
@@ -125,12 +129,21 @@ Local computer without `Docker`
 
 Sun GridEngine (SGE)
 --------------------
-#. Set your parallel environment (`default_runtime_attributes.sge_pe`) and queue (`default_runtime_attributes.sge_queue`) in `workflow_opts/sge.json`. If there is no parallel environment on your SGE then ask your SGE admin to create one. `sge_queue` is optional::
+#. Set your parallel environment (``default_runtime_attributes.sge_pe``) and queue (``default_runtime_attributes.sge_queue``) in ``workflow_opts/sge.json``::
+
+    {
+      "default_runtime_attributes" : {
+        "sge_pe": "YOUR_PARALLEL_ENV",
+        "sge_queue": "YOUR_SGE_QUEUE (optional)"
+    }
+
+#. If there is no parallel environment on your SGE then ask your SGE admin to create one. ``sge_queue`` is optional::
 
     $ qconf -spl
 
 #. Install `dependencies <#dependency-installation>`_.
 #. Install `genome data <#genome-data-installation>`_.
+#. Set ``[PIPELINE].genome_tsv`` in ``input.json`` as the installed genome data TSV.
 #. Run a pipeline::
 
     $ source activate [CONDA_ENV]
@@ -159,13 +172,21 @@ Sun GridEngine (SGE)
 
 SLURM
 -----
-.. note:: Genome data have already been installed and shared on Stanford Sherlock and SCG. You can skip step 3 on these clusters.
+.. note:: Genome data have already been installed and shared on Stanford Sherlock and SCG. Use genome TSV files in ``genome/scg`` or ``genome/sherlock`` for your ``input.json``. You can skip step 3 on these clusters.
 
-#. Set your partition (``default_runtime_attributes.slurm_partition``) or account (``default_runtime_attributes.slurm_account``) in `workflow_opts/slurm.json`. Those two attibutes are optional according to your SLURM server configuration.
-	.. note:: Remove ``slurm_account`` on Sherlock and ``slurm_partition`` on SCG.
+#. Set your partition (``default_runtime_attributes.slurm_partition``) or account (``default_runtime_attributes.slurm_account``) in `workflow_opts/slurm.json`. Those two attibutes are optional according to your SLURM server configuration::
+
+    {
+      "default_runtime_attributes" : {
+        "slurm_partition": "YOUR_SLURM_PARTITON (optional)",
+        "slurm_account": "YOUR_SLURM_ACCOUNT (optional)"
+    }
+
+  .. note:: Remove ``slurm_account`` on Sherlock and ``slurm_partition`` on SCG.
 
 #. Install `dependencies <#dependency-installation>`_.
 #. Install `genome data <#genome-data-installation>`_.
+#. Set ``[PIPELINE].genome_tsv`` in ``input.json`` as the installed genome data TSV.
 #. Run a pipeline::
 
     $ source activate [CONDA_ENV]
@@ -193,9 +214,9 @@ SLURM
 	$ curl -X GET --header "Accept: application/json" -v "[CROMWELL_SVR_IP]:8000/api/workflows/v1/[WORKFLOW_ID]/status"
 
 
-Kundaje lab cluster with `Docker`
----------------------------------
-.. note:: Jobs will run locally without being submitted to Sun GridEngine (SGE). Genome data have already been installed and shared.
+Kundaje lab cluster with ``Docker``
+-----------------------------------
+.. note:: Jobs will run locally without being submitted to Sun GridEngine (SGE). Genome data have already been installed and shared. Use genome TSV files in ``genome/klab`` for your ``input.json``.
 
 #. Run a pipeline::
 
@@ -203,7 +224,7 @@ Kundaje lab cluster with `Docker`
 
 Kundaje lab cluster with SGE
 ----------------------------
-.. note:: Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nodes. Genome data have already been installed and shared.
+.. note:: Jobs will be submitted to Sun GridEngine (SGE) and distributed to all server nodes. Genome data have already been installed and shared. Use genome TSV files in ``genome/klab`` for your ``input.json``.
 
 #. Install `dependencies <#dependency-installation>`_.
 #. Run a pipeline::
@@ -215,24 +236,24 @@ Kundaje lab cluster with SGE
 
 Dependency installation
 -----------------------
-.. note:: WE DO NOT RECOMMEND RUNNING OUR PIPELINE WITHOUT `DOCKER`! Use it with caution.
+.. note:: WE DO NOT RECOMMEND RUNNING OUR PIPELINE WITHOUT ``DOCKER``! If you have ``Docker`` installed then skip this step. Use it with caution.
 
 #. **Our pipeline is for BASH only. Set your default shell as BASH**.
-#. For Mac OSX users, do not install dependencies and just install `Docker` and use our pipeline with it.
-#. Remove any Conda (Anaconda Python and Miniconda) from your `PATH`. **PIPELINE WILL NOT WORK IF YOU HAVE OTHER VERSION OF CONDA BINARIES IN `PATH`**.
-#. Install Miniconda3 for 64-bit Linux on your system. Miniconda2 will not work. If your system is 32-bit Linux then try with `x86_32`::
+#. For Mac OSX users, do not install dependencies and just install ``Docker`` and use our pipeline with it.
+#. Remove any Conda (Anaconda Python and Miniconda) from your ``PATH``. **PIPELINE WILL NOT WORK IF YOU HAVE OTHER VERSION OF CONDA BINARIES IN ``PATH``**.
+#. Install Miniconda3 for 64-bit Linux on your system. Miniconda2 will not work::
 
    $ wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
    $ bash Miniconda3-latest-Linux-x86_64.sh -b -p [MINICONDA3_INSTALL_DIR]
 
-#. Add `PATH` for our pipeline Python scripts and Miniconda3 to one of your bash startup scripts (``$HOME/.bashrc`` or ``$HOME/.bash_profile``).
+#. Add ``PATH`` for our pipeline Python scripts and Miniconda3 to one of your bash startup scripts (``$HOME/.bashrc`` or ``$HOME/.bash_profile``).
 
   .. code-block:: bash
 
+    export PATH=[WDL_PIPELINE_DIR]/src:$PATH # VERY IMPORTANT
+    export PATH=[MINICONDA3_INSTALL_DIR]/bin:$PATH # VERY IMPORTANT
     unset PYTHONPATH
     export PYTHON_EGG_CACHE=/tmp
-    export PATH=[WDL_PIPELINE_DIR]/src:$PATH
-    export PATH=[MINICONDA3_INSTALL_DIR]/bin:$PATH
 
 #. Re-login.
 #. Make sure that conda correctly points to ``[MINICONDA3_INSTALL_DIR]/bin/conda``::
@@ -255,34 +276,42 @@ Dependency installation
 
 Genome data installation
 ------------------------
-.. note:: WE DO NOT RECOMMEND RUNNING OUR PIPELINE WITH LOCALLY INSTALLED/BUILT GENOME DATA! Use it with caution. We will provide an official downloader for all genome data later**. Cromwell is planning to support AWS buckets (`s3://`). Until then, use this installer.
+On Google Cloud TSV files are already installed and shared on a bucket `gs://encode-chip-seq-pipeline-genome-data <https://console.cloud.google.com/storage/browser/encode-pipeline-genome-data?project=encode-dcc-1016>`_. On DNANexus platform TSV files are on `dx://project-FB7q5G00QyxBbQZb5k11115j <https://platform.dnanexus.com/projects/FB7q5G00QyxBbQZb5k11115j/data/>`_.
 
-**On Google Cloud TSV** files are already installed and shared on a bucket `gs://encode-chip-seq-pipeline-genome-data`.
+.. note:: **BUT WE RECOMMEND THAT YOU COPY THESE FILES TO YOUR OWN BUCKET OR DNANEXUS PROJECT TO PREVENT EGRESS TRAFFIC COST FROM BEING BILLED TO OUR SIDE EVERYTIME YOU RUN A PIPELINE.** You will need to modify URIs in all ``.tsv`` files to correctly point to genome data files on your own bucket or project.
 
 Supported genomes:
 
-  * hg38: ENCODE [GRCh38_no_alt_analysis_set_GCA_000001405](https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz)
-  * mm10: ENCODE [mm10_no_alt_analysis_set_ENCODE](https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/@@download/mm10_no_alt_analysis_set_ENCODE.fasta.gz)
-  * hg19: ENCODE [GRCh37/hg19](http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz)
-  * mm9: [mm9, NCBI Build 37](http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit)
+  * hg38: ENCODE `GRCh38_no_alt_analysis_set_GCA_000001405 <https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz>`_
+  * mm10: ENCODE `mm10_no_alt_analysis_set_ENCODE <https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/@@download/mm10_no_alt_analysis_set_ENCODE.fasta.gz>`_
+  * hg19: ENCODE `GRCh37/hg19 <http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz>`_
+  * mm9: `mm9, NCBI Build 37 <http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit>`_
 
-A TSV file will be generated under ``[DEST_DIR]``. Use it for ``[PIPELINE].genome_tsv`` value in pipeline's input JSON file.
+A TSV file will be generated under ``[DEST_DIR]``. Use it for ``[PIPELINE].genome_tsv`` value in your ``input.json`` file.
 
-.. note:: Do not install genome data on Stanford clusters (Sherlock and SCG). They already have all genome data installed. Use ``genome/[GENOME]_sherlock.tsv`` or ``genome/[GENOME]_scg4.tsv`` as your TSV file.
+.. note:: Do not install genome data on Stanford clusters (Sherlock, SCG and Kundaje lab). They already have all genome data installed and shared. Use ``genome/sherlock/[GENOME]_sherlock.tsv``, ``genome/scg/[GENOME]_scg.tsv`` or ``genome/klab/[GENOME]_klab.tsv`` as your TSV file.
 
-#. For Mac OSX users, if `dependencies <#dependency-installation>`_ does not work then post an issue on the repo.
-#. Install `dependencies <#dependency-installation>`_.
-#. Install genome data::
+If you don't have ``Docker`` on your system then use ``Conda`` to build genome data.
+
+  #. For Mac OSX users, if `dependencies <#dependency-installation>`_ does not work then install ``Docker`` and try with the next method.
+  #. Install `dependencies <#dependency-installation>`_.
+  #. Install genome data::
+
+     $ cd installers/
+     $ source activate [CONDA_ENV]
+     $ bash install_genome_data.sh [GENOME] [DEST_DIR]
+     $ source deactivate
+
+Otherwise, use the following command to build genome data with ``Docker``::
 
    $ cd installers/
-   $ source activate [CONDA_ENV]
-   $ bash install_genome_data.sh [GENOME] [DEST_DIR]
-   $ source deactivate
-
+   $ mkdir -p [DEST_DIR]
+   $ cp -f install_genome_data.sh [DEST_DIR]
+   $ docker run -v $(cd $(dirname [DEST_DIR]) && pwd -P)/$(basename [DEST_DIR]):/genome_data_tmp [DOCKER_CONTAINER] "cd /genome_data_tmp && bash install_genome_data.sh [GENOME] ."
 
 Custom genome data installation
 -------------------------------
-You can also install genome data for any species if you have a valid URL for reference ``fasta`` (`.fa`, `.fasta` or '.gz')  or ``2bit`` file. Modfy ``installers/install_genome_data.sh`` like the following.
+You can also install genome data for any species if you have a valid URL for reference ``fasta`` (``.fa``, ``.fasta`` or ``.gz``)  or ``2bit`` file. Modfy ``installers/install_genome_data.sh`` like the following. If you don't have a blacklist file for your species then comment out the line ``BLACKLIST=``.
 
   .. code-block:: bash
     
@@ -312,7 +341,7 @@ To stop MySQL::
 
 	$ docker stop mysql-cromwell
 
-Running MySQL without `Docker`
-------------------------------
-Ask your DB admin to run `[INIT_SQL_DIR]`. You cannot specify destination directory for storing all data. It's locally stored on `/var/lib/mysql` for most versions of MySQL by default.
+Running MySQL without ``Docker``
+--------------------------------
+Ask your DB admin to run ``[INIT_SQL_DIR]``. You cannot specify destination directory for storing all data. It's locally stored on ``/var/lib/mysql`` for most versions of MySQL by default.
 
