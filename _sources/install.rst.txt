@@ -129,6 +129,10 @@ Local computer without ``Docker``
 
 Sun GridEngine (SGE)
 --------------------
+.. note:: Genome data have already been installed and shared on Stanford Kundaje lab cluster. Use genome TSV files in ``genome/klab`` for your ``input.json``. You can skip step 4 on these clusters.
+
+.. note:: If you are working on the OLD Stanford SCG4 cluster, try migrating to a new one based on SLURM. 
+
 #. Set your parallel environment (``default_runtime_attributes.sge_pe``) and queue (``default_runtime_attributes.sge_queue``) in ``workflow_opts/sge.json``::
 
     {
@@ -150,7 +154,7 @@ Sun GridEngine (SGE)
     $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=sge cromwell-30.2.jar run [WDL] -i input.json -o workflow_opts/sge.json
     $ source deactivate
 
-#. If you want to run multiple (>10) pipelines, then run a Cromwell server on an interactive node. We recommend to use `screen` or `tmux` to keep your session alive and note that all running pipelines will be killed after walltime::
+#. If you want to run multiple (>10) pipelines, then run a Cromwell server on an interactive node. We recommend to use ``screen`` or ``tmux`` to keep your session alive and note that all running pipelines will be killed after walltime::
 
 	$ qlogin ... # some qlogin command with some (>=2) cpu, enough memory (>=5G) and long walltime (>=2day)
 	$ hostname -f # to get [CROMWELL_SVR_IP]
@@ -172,7 +176,7 @@ Sun GridEngine (SGE)
 
 SLURM
 -----
-.. note:: Genome data have already been installed and shared on Stanford Sherlock and SCG. Use genome TSV files in ``genome/scg`` or ``genome/sherlock`` for your ``input.json``. You can skip step 3 on these clusters.
+.. note:: Genome data have already been installed and shared on Stanford Sherlock and SCG. Use genome TSV files in ``genome/scg`` or ``genome/sherlock`` for your ``input.json``. You can skip step 2 on these clusters.
 
 #. Set your partition (``default_runtime_attributes.slurm_partition``) or account (``default_runtime_attributes.slurm_account``) in `workflow_opts/slurm.json`. Those two attibutes are optional according to your SLURM server configuration::
 

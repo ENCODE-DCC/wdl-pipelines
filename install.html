@@ -246,6 +246,14 @@ $ source deactivate
 </div>
 <div class="section" id="sun-gridengine-sge">
 <h2>Sun GridEngine (SGE)<a class="headerlink" href="#sun-gridengine-sge" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Genome data have already been installed and shared on Stanford Kundaje lab cluster. Use genome TSV files in <code class="docutils literal notranslate"><span class="pre">genome/klab</span></code> for your <code class="docutils literal notranslate"><span class="pre">input.json</span></code>. You can skip step 4 on these clusters.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are working on the OLD Stanford SCG4 cluster, try migrating to a new one based on SLURM.</p>
+</div>
 <ol class="arabic">
 <li><p class="first">Set your parallel environment (<code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.sge_pe</span></code>) and queue (<code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.sge_queue</span></code>) in <code class="docutils literal notranslate"><span class="pre">workflow_opts/sge.json</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -274,7 +282,7 @@ $ source deactivate
 </pre></div>
 </div>
 </li>
-<li><p class="first">If you want to run multiple (&gt;10) pipelines, then run a Cromwell server on an interactive node. We recommend to use <cite>screen</cite> or <cite>tmux</cite> to keep your session alive and note that all running pipelines will be killed after walltime:</p>
+<li><p class="first">If you want to run multiple (&gt;10) pipelines, then run a Cromwell server on an interactive node. We recommend to use <code class="docutils literal notranslate"><span class="pre">screen</span></code> or <code class="docutils literal notranslate"><span class="pre">tmux</span></code> to keep your session alive and note that all running pipelines will be killed after walltime:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qlogin ... # some qlogin command with some (&gt;=2) cpu, enough memory (&gt;=5G) and long walltime (&gt;=2day)
 $ hostname -f # to get [CROMWELL_SVR_IP]
 $ source activate [CONDA_ENV]
@@ -303,7 +311,7 @@ $ _JAVA_OPTIONS=&quot;-Xmx5G&quot; java -jar -Dconfig.file=backends/backend/conf
 <h2>SLURM<a class="headerlink" href="#slurm" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Genome data have already been installed and shared on Stanford Sherlock and SCG. Use genome TSV files in <code class="docutils literal notranslate"><span class="pre">genome/scg</span></code> or <code class="docutils literal notranslate"><span class="pre">genome/sherlock</span></code> for your <code class="docutils literal notranslate"><span class="pre">input.json</span></code>. You can skip step 3 on these clusters.</p>
+<p class="last">Genome data have already been installed and shared on Stanford Sherlock and SCG. Use genome TSV files in <code class="docutils literal notranslate"><span class="pre">genome/scg</span></code> or <code class="docutils literal notranslate"><span class="pre">genome/sherlock</span></code> for your <code class="docutils literal notranslate"><span class="pre">input.json</span></code>. You can skip step 2 on these clusters.</p>
 </div>
 <ol class="arabic">
 <li><p class="first">Set your partition (<code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.slurm_partition</span></code>) or account (<code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.slurm_account</span></code>) in <cite>workflow_opts/slurm.json</cite>. Those two attibutes are optional according to your SLURM server configuration:</p>
