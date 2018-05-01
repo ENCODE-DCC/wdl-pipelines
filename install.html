@@ -176,7 +176,7 @@ $ chmod +x dxWDL-0.60.2.jar
 </pre></div>
 </div>
 </li>
-<li><p class="first">Set <code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.preemptible</span></code> as <code class="docutils literal notranslate"><span class="pre">&quot;0&quot;</span></code> to disable preemptible instances. Pipeline defaults not to use <a class="reference external" href="https://cloud.google.com/compute/docs/instances/preemptible">preemptible instances</a>. If all retrial fails then the instance will be upgraded to a regular one. <strong>Disabling it will cost you significantly more</strong> but you can get your samples processed much faster and stabler. Preemptible instance is disabled by default for hard tasks like <cite>bowtie2</cite> and <cite>bwa</cite> since they can take longer than the limit (24 hours) of preemptible instances:</p>
+<li><p class="first">Set <code class="docutils literal notranslate"><span class="pre">default_runtime_attributes.preemptible</span></code> as <code class="docutils literal notranslate"><span class="pre">&quot;0&quot;</span></code> to disable preemptible instances. Pipeline defaults not to use <a class="reference external" href="https://cloud.google.com/compute/docs/instances/preemptible">preemptible instances</a>. If all retrial fails then the instance will be upgraded to a regular one. <strong>Disabling it will cost you significantly more</strong> but you can get your samples processed much faster and stabler. Preemptible instance is disabled by default for hard tasks like <code class="docutils literal notranslate"><span class="pre">bowtie2</span></code>, <code class="docutils literal notranslate"><span class="pre">bwa</span></code> and <code class="docutils literal notranslate"><span class="pre">spp</span></code> since they can take longer than the limit (24 hours) of preemptible instances:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;default_runtime_attributes&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="o">...</span>
@@ -194,6 +194,12 @@ $ gcloud auth application-default login --no-launch-browser
 </pre></div>
 </div>
 </li>
+<li><p class="first">If you see permission errors at runtime, then unset environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> or add it to your BASH startup scripts (<code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>).</p>
+</li>
+</ol>
+<blockquote>
+<div>$ unset GOOGLE_APPLICATION_CREDENTIALS</div></blockquote>
+<ol class="arabic">
 <li><p class="first">Get on the Google Project:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gcloud config set project [PROJ_NAME]
 </pre></div>
@@ -427,7 +433,6 @@ $ bash Miniconda3-latest-Linux-x86_64.sh -b -p [MINICONDA3_INSTALL_DIR]
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=[</span>WDL_PIPELINE_DIR<span class="o">]</span>/src:<span class="nv">$PATH</span> <span class="c1"># VERY IMPORTANT</span>
 <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=[</span>MINICONDA3_INSTALL_DIR<span class="o">]</span>/bin:<span class="nv">$PATH</span> <span class="c1"># VERY IMPORTANT</span>
 <span class="nb">unset</span> PYTHONPATH
-<span class="nb">export</span> <span class="nv">PYTHON_EGG_CACHE</span><span class="o">=</span>/tmp
 </pre></div>
 </div>
 </div></blockquote>
