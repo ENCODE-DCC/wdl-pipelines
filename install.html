@@ -194,12 +194,11 @@ $ gcloud auth application-default login --no-launch-browser
 </pre></div>
 </div>
 </li>
-<li><p class="first">If you see permission errors at runtime, then unset environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> or add it to your BASH startup scripts (<code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>).</p>
+<li><p class="first">If you see permission errors at runtime, then unset environment variable <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> or add it to your BASH startup scripts (<code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">$HOME/.bash_profile</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ unset GOOGLE_APPLICATION_CREDENTIALS
+</pre></div>
+</div>
 </li>
-</ol>
-<blockquote>
-<div>$ unset GOOGLE_APPLICATION_CREDENTIALS</div></blockquote>
-<ol class="arabic">
 <li><p class="first">Get on the Google Project:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ gcloud config set project [PROJ_NAME]
 </pre></div>
