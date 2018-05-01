@@ -95,7 +95,7 @@ Google Cloud Platform
 	$ gcloud auth login --no-launch-browser
 	$ gcloud auth application-default login --no-launch-browser
 
-#. If you see permission errors at runtime, then unset environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` or add it to your BASH startup scripts (``~/.bashrc`` or ``~/.bash_profile``).
+#. If you see permission errors at runtime, then unset environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` or add it to your BASH startup scripts (``~/.bashrc`` or ``~/.bash_profile``)::
 
   $ unset GOOGLE_APPLICATION_CREDENTIALS
 
