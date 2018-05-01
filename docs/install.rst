@@ -80,7 +80,7 @@ Google Cloud Platform
 	    ...
 	}
 
-#. Set ``default_runtime_attributes.preemptible`` as ``"0"`` to disable preemptible instances. Pipeline defaults not to use `preemptible instances <https://cloud.google.com/compute/docs/instances/preemptible>`_. If all retrial fails then the instance will be upgraded to a regular one. **Disabling it will cost you significantly more** but you can get your samples processed much faster and stabler. Preemptible instance is disabled by default for hard tasks like `bowtie2` and `bwa` since they can take longer than the limit (24 hours) of preemptible instances::
+#. Set ``default_runtime_attributes.preemptible`` as ``"0"`` to disable preemptible instances. Pipeline defaults not to use `preemptible instances <https://cloud.google.com/compute/docs/instances/preemptible>`_. If all retrial fails then the instance will be upgraded to a regular one. **Disabling it will cost you significantly more** but you can get your samples processed much faster and stabler. Preemptible instance is disabled by default for hard tasks like ``bowtie2``, ``bwa`` and ``spp`` since they can take longer than the limit (24 hours) of preemptible instances::
 
 	{
 	  "default_runtime_attributes" : {
@@ -94,6 +94,10 @@ Google Cloud Platform
 
 	$ gcloud auth login --no-launch-browser
 	$ gcloud auth application-default login --no-launch-browser
+
+#. If you see permission errors at runtime, then unset environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` or add it to your BASH startup scripts (``~/.bashrc`` or ``~/.bash_profile``).
+
+  $ unset GOOGLE_APPLICATION_CREDENTIALS
 
 #. Get on the Google Project::
 
@@ -257,7 +261,6 @@ Dependency installation
     export PATH=[WDL_PIPELINE_DIR]/src:$PATH # VERY IMPORTANT
     export PATH=[MINICONDA3_INSTALL_DIR]/bin:$PATH # VERY IMPORTANT
     unset PYTHONPATH
-    export PYTHON_EGG_CACHE=/tmp
 
 #. Re-login.
 #. Make sure that conda correctly points to ``[MINICONDA3_INSTALL_DIR]/bin/conda``::
