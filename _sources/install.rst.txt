@@ -50,7 +50,7 @@ DNANexus Platform
 
 #. Convert WDL to a workflow on DNANexus web UI. Make sure that URIs in your ``input.json`` are valid (starting with ``dx://``) for DNANexus::
 
-	$ java -jar dxWDL-0.60.2.jar -f -folder [DEST_DIR_ON_DX] -defaults input.json
+	$ java -jar dxWDL-0.60.2.jar compile <(sed 's/#@//g' [WDL]) -f -folder /[DEST_DIR_ON_DX] -defaults input.json
 
 #. Check if a new workflow is generated on a directory ``[DEST_DIR_ON_DX]`` on your project ``[DX_PRJ]``.
 #. Click on a workflow, specify output directory and then launch it.
