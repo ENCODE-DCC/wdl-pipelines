@@ -205,13 +205,13 @@ $ gcloud auth application-default login --no-launch-browser
 </div>
 </li>
 <li><p class="first">Download the latest <code class="docutils literal notranslate"><span class="pre">Cromwell</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://github.com/broadinstitute/cromwell/releases/download/31/cromwell-31.jar
-$ chmod +x cromwell-31.jar
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://github.com/broadinstitute/cromwell/releases/download/32/cromwell-32.jar
+$ chmod +x cromwell-32.jar
 </pre></div>
 </div>
 </li>
 <li><p class="first">Run a pipeline. Make sure that URIs in your <code class="docutils literal notranslate"><span class="pre">input.json</span></code> are valid (starting with <code class="docutils literal notranslate"><span class="pre">gs://</span></code>) for Google Cloud Platform. Use any string for <code class="docutils literal notranslate"><span class="pre">[SAMPLE_NAME]</span></code> to distinguish between multiple samples:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-31.jar run [WDL] -i input.json -o workflow_opts/docker.json
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-32.jar run [WDL] -i input.json -o workflow_opts/docker.json
 </pre></div>
 </div>
 </li>
@@ -291,7 +291,7 @@ $ source deactivate
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ qlogin ... # some qlogin command with some (&gt;=2) cpu, enough memory (&gt;=5G) and long walltime (&gt;=2day)
 $ hostname -f # to get [CROMWELL_SVR_IP]
 $ source activate [CONDA_ENV]
-$ _JAVA_OPTIONS=&quot;-Xmx5G&quot; java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=sge cromwell-31.jar server
+$ _JAVA_OPTIONS=&quot;-Xmx5G&quot; java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=sge cromwell-32.jar server
 </pre></div>
 </div>
 </li>
@@ -353,7 +353,7 @@ $ source deactivate
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ srun -n 2 --mem 5G -t 3-0 --qos normal --account [ACCOUNT] -p [PARTITION] --pty /bin/bash -i -l # some srun command with some (&gt;=2) cpu, enough memory (&gt;=5G) and long walltime (&gt;=2day)
 $ hostname -f # to get [CROMWELL_SVR_IP]
 $ source activate [CONDA_ENV]
-$ _JAVA_OPTIONS=&quot;-Xmx5G&quot; java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=slurm cromwell-31.jar server
+$ _JAVA_OPTIONS=&quot;-Xmx5G&quot; java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=slurm cromwell-32.jar server
 </pre></div>
 </div>
 </li>
@@ -417,7 +417,7 @@ $ source deactivate
 </li>
 <li><p class="first">For Mac OSX users, do not install dependencies and just install <code class="docutils literal notranslate"><span class="pre">Docker</span></code> and use our pipeline with it.</p>
 </li>
-<li><p class="first">Remove any Conda (Anaconda Python and Miniconda) from your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. <strong>PIPELINE WILL NOT WORK IF YOU HAVE OTHER VERSION OF CONDA BINARIES IN ``PATH``</strong>.</p>
+<li><p class="first">Remove any Conda (Anaconda Python and Miniconda) from your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. PIPELINE WILL NOT WORK IF YOU HAVE OTHER VERSION OF CONDA BINARIES IN <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
 </li>
 <li><p class="first">Install Miniconda3 for 64-bit Linux on your system. Miniconda2 will not work:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -430,7 +430,7 @@ $ bash Miniconda3-latest-Linux-x86_64.sh -b -p [MINICONDA3_INSTALL_DIR]
 </ol>
 <blockquote>
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=[</span>WDL_PIPELINE_DIR<span class="o">]</span>/src:<span class="nv">$PATH</span> <span class="c1"># VERY IMPORTANT</span>
-<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=[</span>MINICONDA3_INSTALL_DIR<span class="o">]</span>/bin:<span class="nv">$PATH</span> <span class="c1"># VERY IMPORTANT</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=[</span>MINICONDA3_INSTALL_DIR<span class="o">]</span>/bin:<span class="nv">$PATH</span>
 <span class="nb">unset</span> PYTHONPATH
 </pre></div>
 </div>

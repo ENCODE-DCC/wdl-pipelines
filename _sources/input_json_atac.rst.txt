@@ -84,7 +84,7 @@ Optional parameters and flags are marked with ``?``.
 
     Structure/dimension of ``"atac.adapters`` must match with that of ``"atac.fastqs"``. If no adapters are given then do not define ``"atac.adapters"`` in ``input.json``. If some adapters are known then define them in ``"atac.adapters"`` and leave other entries empty (``""``) while keeping the same structure/dimension as in ``"atac.fastqs"``. All undefined/non-empty adapters will be trimmed without auto detection.
     
-    * ``"atac.trim_adapter.auto_detect_adapter"`` : Set it as ``true`` to automatically detect/trim adapters for empty entries in ``"atac.adapters"``. There will be no auto detection for non-empty entries it. If ``"atac.adapters"`` is not defined then all adapters will be detected/trimmed for all fastqs.
+    * ``"atac.trim_adapter.auto_detect_adapter"``? : Set it as ``true`` to automatically detect/trim adapters for empty entries in ``"atac.adapters"``. There will be no auto detection for non-empty entries it. If ``"atac.adapters"`` is not defined then all adapters will be detected/trimmed for all fastqs.
     * ``"atac.trim_adapter.min_trim_len"``? : Minimum trim length for ``cutadapt -m``.
     * ``"atac.trim_adapter.err_rate"``? : Maximum allowed adapter error rate for ``cutadapt -e``.
 
