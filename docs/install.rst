@@ -50,7 +50,7 @@ DNANexus Platform
 
 #. Convert WDL to a workflow on DNANexus web UI. Make sure that URIs in your ``input.json`` are valid (starting with ``dx://``) for DNANexus::
 
-	$ java -jar dxWDL-0.60.2.jar -f -folder [DEST_DIR_ON_DX] -defaults input.json
+	$ java -jar dxWDL-0.60.2.jar compile <(sed 's/#@//g' [WDL]) -f -folder /[DEST_DIR_ON_DX] -defaults input.json
 
 #. Check if a new workflow is generated on a directory ``[DEST_DIR_ON_DX]`` on your project ``[DX_PRJ]``.
 #. Click on a workflow, specify output directory and then launch it.
@@ -105,12 +105,12 @@ Google Cloud Platform
 
 #. Download the latest ``Cromwell``::
 
-	$ wget https://github.com/broadinstitute/cromwell/releases/download/31/cromwell-31.jar
-	$ chmod +x cromwell-31.jar
+	$ wget https://github.com/broadinstitute/cromwell/releases/download/32/cromwell-32.jar
+	$ chmod +x cromwell-32.jar
 
 #. Run a pipeline. Make sure that URIs in your ``input.json`` are valid (starting with ``gs://``) for Google Cloud Platform. Use any string for ``[SAMPLE_NAME]`` to distinguish between multiple samples::
 
-    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-31.jar run [WDL] -i input.json -o workflow_opts/docker.json
+    $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=[PROJ_NAME] -Dbackend.providers.google.config.root=[OUT_BUCKET]/[SAMPLE_NAME] cromwell-32.jar run [WDL] -i input.json -o workflow_opts/docker.json
 
 Local computer with ``Docker``
 ------------------------------
@@ -163,7 +163,7 @@ Sun GridEngine (SGE)
 	$ qlogin ... # some qlogin command with some (>=2) cpu, enough memory (>=5G) and long walltime (>=2day)
 	$ hostname -f # to get [CROMWELL_SVR_IP]
 	$ source activate [CONDA_ENV]
-	$ _JAVA_OPTIONS="-Xmx5G" java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=sge cromwell-31.jar server
+	$ _JAVA_OPTIONS="-Xmx5G" java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=sge cromwell-32.jar server
 
 #. You can modify ``backend.providers.sge.concurrent-job-limit`` in ``backends/backend.conf`` to increase maximum concurrent jobs. This limit is **not per sample**. It's for all sub-tasks of all submitted samples.
 
@@ -206,7 +206,7 @@ SLURM
 	$ srun -n 2 --mem 5G -t 3-0 --qos normal --account [ACCOUNT] -p [PARTITION] --pty /bin/bash -i -l # some srun command with some (>=2) cpu, enough memory (>=5G) and long walltime (>=2day)
 	$ hostname -f # to get [CROMWELL_SVR_IP]
 	$ source activate [CONDA_ENV]
-	$ _JAVA_OPTIONS="-Xmx5G" java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=slurm cromwell-31.jar server
+	$ _JAVA_OPTIONS="-Xmx5G" java -jar -Dconfig.file=backends/backend/conf -Dbackend.default=slurm cromwell-32.jar server
 
 #. You can modify ``backend.providers.slurm.concurrent-job-limit`` in ``backends/backend.conf`` to increase maximum concurrent jobs. This limit is **not per sample**. It's for all sub-tasks of all submitted samples.
 
@@ -248,7 +248,7 @@ Dependency installation
 
 #. **Our pipeline is for BASH only. Set your default shell as BASH**.
 #. For Mac OSX users, do not install dependencies and just install ``Docker`` and use our pipeline with it.
-#. Remove any Conda (Anaconda Python and Miniconda) from your ``PATH``. **PIPELINE WILL NOT WORK IF YOU HAVE OTHER VERSION OF CONDA BINARIES IN ``PATH``**.
+#. Remove any Conda (Anaconda Python and Miniconda) from your ``PATH``. PIPELINE WILL NOT WORK IF YOU HAVE OTHER VERSION OF CONDA BINARIES IN ``PATH``.
 #. Install Miniconda3 for 64-bit Linux on your system. Miniconda2 will not work::
 
    $ wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -259,7 +259,7 @@ Dependency installation
   .. code-block:: bash
 
     export PATH=[WDL_PIPELINE_DIR]/src:$PATH # VERY IMPORTANT
-    export PATH=[MINICONDA3_INSTALL_DIR]/bin:$PATH # VERY IMPORTANT
+    export PATH=[MINICONDA3_INSTALL_DIR]/bin:$PATH
     unset PYTHONPATH
 
 #. Re-login.
