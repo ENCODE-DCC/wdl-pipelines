@@ -45,12 +45,12 @@ DNANexus Platform
 
 #. Download the latest ``dxWDL``::
 
-	$ wget https://github.com/dnanexus/dxWDL/releases/download/0.60.2/dxWDL-0.60.2.jar
-	$ chmod +x dxWDL-0.60.2.jar
+	$ wget https://github.com/dnanexus/dxWDL/releases/download/0.66.1/dxWDL-0.66.1.jar
+	$ chmod +x dxWDL-0.66.1.jar
 
 #. Convert WDL to a workflow on DNANexus web UI. Make sure that URIs in your ``input.json`` are valid (starting with ``dx://``) for DNANexus::
 
-	$ java -jar dxWDL-0.60.2.jar compile <(sed 's/#@//g' [WDL]) -f -folder /[DEST_DIR_ON_DX] -defaults input.json
+	$ java -jar dxWDL-0.66.1.jar compile [WDL] -f -folder /[DEST_DIR_ON_DX] -defaults input.json -extras workflow_opts/docker.json
 
 #. Check if a new workflow is generated on a directory ``[DEST_DIR_ON_DX]`` on your project ``[DX_PRJ]``.
 #. Click on a workflow, specify output directory and then launch it.
