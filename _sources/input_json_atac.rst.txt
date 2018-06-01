@@ -124,6 +124,10 @@ Optional parameters and flags are marked with ``?``.
     * ``"atac.enable_idr"``? : Set it as ``true`` to enable IDR on raw peaks.
     * ``"atac.idr_thresh"``? : IDR threshold.
 
+#. ATAQC (annotation based analysis) settings
+
+    * ``"atac.disable_ataqc"``? : Set it as ``true`` to disable ATAQC.
+
 #. Resources
 
     **RESOURCES DEFINED IN ``input.json`` ARE PER TASK**. For example, if you have FASTQs for 2 replicates (2 tasks) and set ``cpu`` for ``bowtie2`` task as 4 then total number of cpu cores to map FASTQs is 2 x 4 = 8.
