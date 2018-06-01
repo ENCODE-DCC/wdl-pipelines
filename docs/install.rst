@@ -188,6 +188,7 @@ SLURM
       "default_runtime_attributes" : {
         "slurm_partition": "YOUR_SLURM_PARTITON (optional)",
         "slurm_account": "YOUR_SLURM_ACCOUNT (optional)"
+      }
     }
 
   .. note:: Remove ``slurm_account`` on Sherlock and ``slurm_partition`` on SCG.
