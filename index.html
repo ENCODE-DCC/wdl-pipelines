@@ -34,14 +34,22 @@
 <h1>ENCODE genomic pipelines<a class="headerlink" href="#encode-genomic-pipelines" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<p>Pipelines</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/ENCODE-DCC/atac-seq-pipeline">ATAC/DNase-Seq pipeline</a></li>
 <li><a class="reference external" href="https://github.com/ENCODE-DCC/chip-seq-pipeline2">Histone/TF ChIP-Seq pipeline</a></li>
-<li>RNA-Seq pipeline</li>
-<li>…</li>
+</ul>
+<p>Pipelines in development</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ENCODE-DCC/rna-seq-pipeline">(dev) RNA-Seq pipeline</a></li>
+<li><a class="reference external" href="https://github.com/ENCODE-DCC/hic-pipeline">(dev) HiC pipeline</a></li>
+<li><a class="reference external" href="https://github.com/ENCODE-DCC/wgbs-pipeline">(dev) WGBS pipeline</a></li>
 </ul>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/broadinstitute/cromwell">Cromwell</a> is our main WDL runner and we additionally support <a class="reference external" href="https://github.com/dnanexus/dxWDL">dxWDL</a> for <a class="reference external" href="https://platform.dnanexus.com">DNANexus platform</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Docker</span></code> is a container solution for software dependencies. <code class="docutils literal notranslate"><span class="pre">Conda</span></code> is a software package manager working on a virtual environment.</p>
+<p>Cromwell can work with either <code class="docutils literal notranslate"><span class="pre">Docker</span></code> or <code class="docutils literal notranslate"><span class="pre">Conda</span></code>. You can choose between them on your local computer. But you need to use <code class="docutils literal notranslate"><span class="pre">Docker</span></code> for cloud platforms (DNANexus platform and Google Cloud) and <code class="docutils literal notranslate"><span class="pre">Conda</span></code> for cluster engines (SLURM and SGE).</p>
 <ul class="simple">
 <li><a class="reference external" href="install.html#dnanexus-platform">DNANexus Platform</a></li>
 <li><a class="reference external" href="install.html#google-cloud-platform">Google Cloud Platform</a></li>
@@ -53,11 +61,21 @@
 </div>
 <div class="section" id="input-json">
 <h2>Input JSON<a class="headerlink" href="#input-json" title="Permalink to this headline">¶</a></h2>
+<p>Task-level variable definition is slightly different between dxWDL and Cromwell. For example of a sample name variable, dxWDL’s input JSON file looks like <code class="docutils literal notranslate"><span class="pre">[TASK].[VAR]</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="s2">&quot;qc_report.name&quot;</span> <span class="p">:</span> <span class="s2">&quot;test sample&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>But Cromwell uses <code class="docutils literal notranslate"><span class="pre">[WORKFLOW].[TASK].[VAR]</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="s2">&quot;atac.qc_report.name&quot;</span> <span class="p">:</span> <span class="s2">&quot;test sample&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><a class="reference external" href="input_json_atac.html">ATAC/DNase-Seq pipeline</a></li>
 <li><a class="reference external" href="input_json_chip.html">Histone/TF ChIP-Seq pipeline</a></li>
-<li>RNA-Seq pipeline</li>
-<li>…</li>
 </ul>
 </div>
 <div class="section" id="output-specification">
@@ -65,18 +83,23 @@
 <ul class="simple">
 <li><a class="reference external" href="output_atac.html">ATAC/DNase-Seq pipeline</a></li>
 <li><a class="reference external" href="output_chip.html">Histone/TF ChIP-Seq pipeline</a></li>
-<li>RNA-Seq pipeline</li>
-<li>…</li>
 </ul>
 </div>
 <div class="section" id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>Our pipelines use the same configuration for Conda dependencies as in genomic pipelines in Anshul Kundaje’s lab at Stanford. If you have any issues about Conda and its dependencies, please take a look at the following pages before you post an issue on each pipeline’s github repo.</p>
 <ul class="simple">
-<li><a class="reference external" href="troubleshoot.html">General</a></li>
-<li><a class="reference external" href="https://github.com/ENCODE-DCC/atac-seq-pipeline/issues">ATAC/DNase-Seq pipeline</a></li>
-<li><a class="reference external" href="https://github.com/ENCODE-DCC/chip-seq-pipeline2/issues">Histone/TF ChIP-Seq pipeline</a></li>
-<li>RNA-Seq pipeline</li>
-<li>…</li>
+<li><a class="reference external" href="https://kundajelab.github.io/bds_pipeline_modules/troubleshooting.html">General troubleshooting</a></li>
+<li><a class="reference external" href="https://github.com/kundajelab/atac_dnase_pipelines/issues?q=is%3Aissue">ATAC/DNase pipelines</a></li>
+<li><a class="reference external" href="https://github.com/kundajelab/chipseq_pipeline/issues?q=is%3Aissue">AQUAS Histone/TF ChIP-Seq pipeline</a></li>
+</ul>
+<p>For pipeline specific issues, post them on each pipeline’s github issue page.</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ENCODE-DCC/atac-seq-pipeline/issues?q=is%3Aissue">ATAC/DNase-Seq pipeline</a></li>
+<li><a class="reference external" href="https://github.com/ENCODE-DCC/chip-seq-pipeline2/issues?q=is%3Aissue">Histone/TF ChIP-Seq pipeline</a></li>
+<li><a class="reference external" href="https://github.com/ENCODE-DCC/rna-seq-pipeline/issues?q=is%3Aissue">(dev) RNA-Seq pipeline</a></li>
+<li><a class="reference external" href="https://github.com/ENCODE-DCC/hic-pipeline/issues?q=is%3Aissue">(dev) HiC pipeline</a></li>
+<li><a class="reference external" href="https://github.com/ENCODE-DCC/wgbs-pipeline/issues?q=is%3Aissue">(dev) WGBS pipeline</a></li>
 </ul>
 </div>
 <div class="section" id="indices-and-tables">
