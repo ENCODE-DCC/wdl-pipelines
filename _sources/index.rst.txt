@@ -18,7 +18,9 @@ ENCODE genomic pipelines
    output_atac.rst
 
 * `ATAC/DNase-Seq pipeline <https://github.com/ENCODE-DCC/atac-seq-pipeline>`_
-* `AQUAS Histone/TF ChIP-Seq pipeline <https://github.com/ENCODE-DCC/chip-seq-pipeline2>`_
+* `Histone/TF ChIP-Seq pipeline <https://github.com/ENCODE-DCC/chip-seq-pipeline2>`_
+* RNA-Seq pipeline
+* ...
 
 Installation
 ------------
@@ -34,14 +36,22 @@ Input JSON
 ----------
 
 * `ATAC/DNase-Seq pipeline <input_json_atac.html>`_
-* `AQUAS Histone/TF ChIP-Seq pipeline <input_json_chip.html>`_
+* `Histone/TF ChIP-Seq pipeline <input_json_chip.html>`_
 * RNA-Seq pipeline
 * ...
 
 Output specification
 --------------------
 * `ATAC/DNase-Seq pipeline <output_atac.html>`_
-* `AQUAS Histone/TF ChIP-Seq pipeline <output_chip.html>`_
+* `Histone/TF ChIP-Seq pipeline <output_chip.html>`_
+* RNA-Seq pipeline
+* ...
+
+Troubleshooting
+---------------
+* `General <troubleshoot.html>`_
+* `ATAC/DNase-Seq pipeline <https://github.com/ENCODE-DCC/atac-seq-pipeline/issues>`_
+* `Histone/TF ChIP-Seq pipeline <https://github.com/ENCODE-DCC/chip-seq-pipeline2/issues>`_
 * RNA-Seq pipeline
 * ...
 

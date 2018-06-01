@@ -121,13 +121,13 @@ $ dx login
 </div>
 </li>
 <li><p class="first">Download the latest <code class="docutils literal notranslate"><span class="pre">dxWDL</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://github.com/dnanexus/dxWDL/releases/download/0.60.2/dxWDL-0.60.2.jar
-$ chmod +x dxWDL-0.60.2.jar
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://github.com/dnanexus/dxWDL/releases/download/0.66.1/dxWDL-0.66.1.jar
+$ chmod +x dxWDL-0.66.1.jar
 </pre></div>
 </div>
 </li>
 <li><p class="first">Convert WDL to a workflow on DNANexus web UI. Make sure that URIs in your <code class="docutils literal notranslate"><span class="pre">input.json</span></code> are valid (starting with <code class="docutils literal notranslate"><span class="pre">dx://</span></code>) for DNANexus:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -jar dxWDL-0.60.2.jar compile &lt;(sed &#39;s/#@//g&#39; [WDL]) -f -folder /[DEST_DIR_ON_DX] -defaults input.json
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ java -jar dxWDL-0.66.1.jar compile [WDL] -f -folder /[DEST_DIR_ON_DX] -defaults input.json -extras workflow_opts/docker.json
 </pre></div>
 </div>
 </li>
