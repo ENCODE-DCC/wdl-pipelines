@@ -18,16 +18,16 @@ Choose ``[BACKEND_FILE]``, ``[BACKEND]``, ``[WDL]``, ``[PIPELINE]``, ``[CONDA_EN
     * ``sge`` : Sun GridEngine.
     * ``slurm`` : SLURM.
 #. ``[PIPELINE]``
-    * ``atac`` : ENCODE ATAC/DNase-Seq pipeline
+    * ``atac`` : ENCODE ATAC-Seq pipeline
     * ``chip`` : AQUAS TF/Histone ChIP-Seq processing pipeline
 #. ``[WDL]``
-    * ``atac.wdl`` : ENCODE ATAC/DNase-Seq pipeline
+    * ``atac.wdl`` : ENCODE ATAC-Seq pipeline
     * ``chip.wdl`` : AQUAS TF/Histone ChIP-Seq processing pipeline
 #. ``[CONDA_ENV]`` (for systems without `Docker` support)
-    * ``encode-atac-seq-pipeline`` : ENCODE ATAC/DNase-Seq pipeline
+    * ``encode-atac-seq-pipeline`` : ENCODE ATAC-Seq pipeline
     * ``encode-chip-seq-pipeline`` : AQUAS TF/Histone ChIP-Seq processing pipeline
 #. ``[DOCKER_CONTAINER]``
-    * ``quay.io/encode-dcc/atac-seq-pipeline:v1`` : ENCODE ATAC/DNase-Seq pipeline
+    * ``quay.io/encode-dcc/atac-seq-pipeline:v1`` : ENCODE ATAC-Seq pipeline
     * ``quay.io/encode-dcc/chip-seq-pipeline2:v1`` : AQUAS TF/Histone ChIP-Seq processing pipeline
 #. ``[WORKFLOW_OPT]`` (not required for DNANexus)
     * ``docker.json`` : for systems with ``Docker`` support (Google Cloud, local, ...).
