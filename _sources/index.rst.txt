@@ -19,7 +19,7 @@ ENCODE genomic pipelines
 
 Pipelines
 
-* `ATAC/DNase-Seq pipeline <https://github.com/ENCODE-DCC/atac-seq-pipeline>`_
+* `ATAC-Seq pipeline <https://github.com/ENCODE-DCC/atac-seq-pipeline>`_
 * `Histone/TF ChIP-Seq pipeline <https://github.com/ENCODE-DCC/chip-seq-pipeline2>`_
 
 Pipelines in development
@@ -59,12 +59,12 @@ But Cromwell uses ``[WORKFLOW].[TASK].[VAR]``::
       "atac.qc_report.name" : "test sample"
    }
 
-* `ATAC/DNase-Seq pipeline <input_json_atac.html>`_
+* `ATAC-Seq pipeline <input_json_atac.html>`_
 * `Histone/TF ChIP-Seq pipeline <input_json_chip.html>`_
 
 Output specification
 --------------------
-* `ATAC/DNase-Seq pipeline <output_atac.html>`_
+* `ATAC-Seq pipeline <output_atac.html>`_
 * `Histone/TF ChIP-Seq pipeline <output_chip.html>`_
 
 Troubleshooting
@@ -73,12 +73,12 @@ Troubleshooting
 Our pipelines use the same configuration for Conda dependencies as in genomic pipelines in Anshul Kundaje's lab at Stanford. If you have any issues about Conda and its dependencies, please take a look at the following pages before you post an issue on each pipeline's github repo.
 
 * `General troubleshooting <https://kundajelab.github.io/bds_pipeline_modules/troubleshooting.html>`_
-* `ATAC/DNase pipelines <https://github.com/kundajelab/atac_dnase_pipelines/issues?q=is%3Aissue>`_
+* `ATAC pipelines <https://github.com/kundajelab/atac_dnase_pipelines/issues?q=is%3Aissue>`_
 * `AQUAS Histone/TF ChIP-Seq pipeline <https://github.com/kundajelab/chipseq_pipeline/issues?q=is%3Aissue>`_
 
 For pipeline specific issues, post them on each pipeline's github issue page.
 
-* `ATAC/DNase-Seq pipeline <https://github.com/ENCODE-DCC/atac-seq-pipeline/issues?q=is%3Aissue>`_
+* `ATAC-Seq pipeline <https://github.com/ENCODE-DCC/atac-seq-pipeline/issues?q=is%3Aissue>`_
 * `Histone/TF ChIP-Seq pipeline <https://github.com/ENCODE-DCC/chip-seq-pipeline2/issues?q=is%3Aissue>`_
 * `(dev) RNA-Seq pipeline <https://github.com/ENCODE-DCC/rna-seq-pipeline/issues?q=is%3Aissue>`_
 * `(dev) HiC pipeline <https://github.com/ENCODE-DCC/hic-pipeline/issues?q=is%3Aissue>`_
