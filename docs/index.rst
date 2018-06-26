@@ -61,11 +61,13 @@ But Cromwell uses ``[WORKFLOW].[TASK].[VAR]``::
 
 * `ATAC-Seq pipeline <input_json_atac.html>`_
 * `Histone/TF ChIP-Seq pipeline <input_json_chip.html>`_
+* `Hic pipeline <input_json_hic.html>`_
 
 Output specification
 --------------------
 * `ATAC-Seq pipeline <output_atac.html>`_
 * `Histone/TF ChIP-Seq pipeline <output_chip.html>`_
+* `Hic pipeline <output_hic.html>`_
 
 Troubleshooting
 ---------------
