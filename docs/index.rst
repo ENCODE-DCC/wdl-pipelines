@@ -14,8 +14,10 @@ ENCODE genomic pipelines
    install.rst
    input_json_chip.rst
    input_json_atac.rst
+   input_hic.rst
    output_chip.rst
    output_atac.rst
+   output_hic.rst
 
 Pipelines
 
