@@ -24,7 +24,7 @@ Optional parameters and flags are marked with ``?``.
         - 3rd dimension: library ID 
     * ``"hic.bams"``? : 3-dimensional array of raw (unfiltered) BAM file path/URI. Next step is to be merged.
         - 1st dimension: specific bam types ID
-        - 2nd dimension: sequencing run ID
+        - 2nd dimension: grouping of collisions, collisions_low_mapq, unmapped, mapq0, alignable
         - 3rd dimension: library ID
     * ``"hic.input_sort_files"``? : 2-dimensional array of not merged sort.txt files. Next step is to be merged.
         - 1st dimension: sequencing run ID

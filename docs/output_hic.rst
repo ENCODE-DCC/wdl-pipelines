@@ -13,13 +13,14 @@ All output filenames keep prefixes from corresponding input filenames.
     :header: Task name, File, Description
    
     align, \*.bam | \*.txt | \*.res.txt, Raw BAM | txt | res.txt
-    merge, \*.bam, Merged BAM
+    merge, \*.bam, Merged BAM of specific type
     merge_sort, \*.txt, Merged txt
     align_qc,\*.json, Align QC JSON 
     dedup, \*.txt, Deduped txt
     merge_pairs, \*.txt, Merged and deduped txt
     create_hic, \*.hic, Final HiC
     create_tads,\*.bedpe, Final TADs
+    hiccups, \*.bedpe, Final loops
     strip_headers, \*.sam, SAM with no headers (for comparison)
     compare_md5sum, \*.tsv | \*.txt | \*.json, TSV | txt | JSON  for comparison
 
