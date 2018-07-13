@@ -1,0 +1,154 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Output specification for hic.wdl &#8212; ENCODE genomic pipelines  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Output specification for atac.wdl" href="output_atac.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="output-specification-for-hic-wdl">
+<h1>Output specification for <code class="docutils literal notranslate"><span class="pre">hic.wdl</span></code><a class="headerlink" href="#output-specification-for-hic-wdl" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>All output filenames keep prefixes from corresponding input filenames.</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">Cromwell</span></code>: stores outputs for each task under <code class="docutils literal notranslate"><span class="pre">cromwell-executions/[WORKFLOW_ID]/call-[TASK_NAME]/shard-[IDX]</span></code>.</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Task name</th>
+<th class="head">File</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>align</td>
+<td>*.bam | *.txt | *.res.txt</td>
+<td>Raw BAM | txt | res.txt</td>
+</tr>
+<tr class="row-odd"><td>merge</td>
+<td>*.bam</td>
+<td>Merged BAM of specific type</td>
+</tr>
+<tr class="row-even"><td>merge_sort</td>
+<td>*.txt</td>
+<td>Merged txt</td>
+</tr>
+<tr class="row-odd"><td>align_qc</td>
+<td>*.json</td>
+<td>Align QC JSON</td>
+</tr>
+<tr class="row-even"><td>dedup</td>
+<td>*.txt</td>
+<td>Deduped txt</td>
+</tr>
+<tr class="row-odd"><td>merge_pairs</td>
+<td>*.txt</td>
+<td>Merged and deduped txt</td>
+</tr>
+<tr class="row-even"><td>create_hic</td>
+<td>*.hic</td>
+<td>Final HiC</td>
+</tr>
+<tr class="row-odd"><td>create_tads</td>
+<td>*.bedpe</td>
+<td>Final TADs</td>
+</tr>
+<tr class="row-even"><td>hiccups</td>
+<td>*.bedpe</td>
+<td>Final loops</td>
+</tr>
+<tr class="row-odd"><td>strip_headers</td>
+<td>*.sam</td>
+<td>SAM with no headers (for comparison)</td>
+</tr>
+<tr class="row-even"><td>compare_md5sum</td>
+<td>*.tsv | *.txt | *.json</td>
+<td>TSV | txt | JSON  for comparison</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="output_atac.html" title="previous chapter">Output specification for <code class="docutils literal notranslate"><span class="pre">atac.wdl</span></code></a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/output_hic.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, ENCODE DCC.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/output_hic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
