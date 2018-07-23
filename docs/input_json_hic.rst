@@ -13,7 +13,19 @@ Optional parameters and flags are marked with ``?``.
 
     * hg38: ENCODE `GRCh38_no_alt_analysis_set_GCA_000001405 <https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz>`_
     * mm10: ENCODE `mm10_no_alt_analysis_set_ENCODE <https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/@@download/mm10_no_alt_analysis_set_ENCODE.fasta.gz>`_
+    * hg19: ENCODE `GRCh37/hg19 <http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/referenceSequences/male.hg19.fa.gz>`_
+    * mm9: `mm9, NCBI Build 37 <http://hgdownload.cse.ucsc.edu/goldenPath/mm9/bigZips/mm9.2bit>`_
+    
+#. Restriction enzymes
 
+    Currently supported restriction enzymes:
+
+    * HindIII: ENCODE `GRCh38_no_alt_analysis_set_GCA_000001405 <https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz>`_
+    * DpnII: ENCODE `mm10_no_alt_analysis_set_ENCODE <https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/@@download/mm10_no_alt_analysis_set_ENCODE.fasta.gz>`_
+    * MboI: _
+    * NcoI: _
+    * Nhel: _
+    
 #. Input genome data files
 
     Choose any genome data type you want to start with and do not define others. 

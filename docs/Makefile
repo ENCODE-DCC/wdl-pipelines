@@ -6,7 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = ENCODEgenomicpipelines
 SOURCEDIR     = .
-BUILDDIR      = ../../wdl-pipelines-gh-pages/
+BUILDDIR      = ../../wdl-pipelines-gh-pages
 
 # Put it first so that "make" without argument is like "make help".
 help:
